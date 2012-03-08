@@ -14,7 +14,14 @@ typedef MIDI_event_t MidiEvt; // Shorter typing
 class YamahaDME
 {
 public:
-	YamahaDME(midi_Input *in, midi_Output *out) : m_SelPressed(false) { m_midiInput = in; m_midiOutput = out; }
+	enum DeskType {
+		UNDEF = 0x00,
+		PM5D = 0x0F,
+		M7CL = 0x11,
+		LS9 = 0x12
+	}; 
+
+	YamahaDME(midi_Input *in, midi_Output *out) : m_SelPressed(false), desk(YamahaDME::UNDEF) { m_midiInput = in; m_midiOutput = out; }
 	virtual void onMidiEvent(MidiEvt *evt) = 0;
 	virtual void synchToYamaha() = 0;
 	virtual void synchToReaper() = 0;
@@ -57,6 +64,7 @@ protected:
 	bool m_SelPressed;
 	midi_Input *m_midiInput;
 	midi_Output *m_midiOutput;
+	DeskType desk;
 };
 
 #endif

@@ -67,6 +67,9 @@ void YamahaDME::clearAllSelectedTracks()
 
 void YamahaDME::sendToYamaha(unsigned int opcodeA, unsigned int opcodeB, int param, int channel, int data)
 {
+	if(desk == YamahaDME::UNDEF)
+		return;
+
 	struct
 	{
 		MIDI_event_t evt;
@@ -80,7 +83,7 @@ void YamahaDME::sendToYamaha(unsigned int opcodeA, unsigned int opcodeB, int par
 	yam.evt.midi_message[yam.evt.size++] = 0x43;
 	yam.evt.midi_message[yam.evt.size++] = 0x10;
 	yam.evt.midi_message[yam.evt.size++] = 0x3e;
-	yam.evt.midi_message[yam.evt.size++] = 0x12;
+	yam.evt.midi_message[yam.evt.size++] = desk;
 	yam.evt.midi_message[yam.evt.size++] = 0x01;
 	yam.evt.midi_message[yam.evt.size++] = opcodeA;
 	yam.evt.midi_message[yam.evt.size++] = opcodeB;

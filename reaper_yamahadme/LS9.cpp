@@ -167,7 +167,7 @@ void LS9::SetSurfaceSelected(MediaTrack *tr, bool selected)
 	if(selected)
 	{
 		int track = CSurf_TrackToID(tr, MCP_MODE);
-		sendToYamaha(0x02, 0x39, 0x10, 0x00, track);
+		sendToYamaha(0x02, 0x39, 0x10, 0x00, --track);
 	}
 }
 

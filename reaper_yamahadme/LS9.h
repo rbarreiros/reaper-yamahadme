@@ -11,7 +11,7 @@ static const double LS9_val2db[LS9_nVolumeValues] = {
 class LS9 : public YamahaDME
 {
 public:
-	LS9(midi_Input *in, midi_Output *out) : YamahaDME(in, out) {}
+	LS9(midi_Input *in, midi_Output *out) : YamahaDME(in, out) { desk = YamahaDME::LS9; }
 	void onMidiEvent(MidiEvt *evt);
 	void synchToYamaha() {}
 	void synchToReaper() {}
