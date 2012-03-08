@@ -1,0 +1,5 @@
+Debug/*
+reaper_yamahadme/Debug/*
+*.opensdf
+ipch/*
+*.sdf
