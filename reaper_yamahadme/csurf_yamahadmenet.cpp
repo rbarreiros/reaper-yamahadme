@@ -29,7 +29,7 @@
 	@Param[out]	errStats	Errors
 */
 
-CSurf_YamahaDMENet::CSurf_YamahaDMENet(int indev, int outdev, int *errStats) 
+CSurf_YamahaDMENet::CSurf_YamahaDMENet(int indev, int outdev, SynchDirection dir, int *errStats) : m_synchDir(dir)
 {
 	m_midi_in_dev=indev;
 	m_midi_out_dev=outdev;
@@ -56,6 +56,15 @@ CSurf_YamahaDMENet::CSurf_YamahaDMENet(int indev, int outdev, int *errStats)
 	//else if(_strcmpi(name, "m7cl") == 0) // Init M7CL
 	//else if(_strcmpi(name, "pm5d") == 0) // Init PM5D
 	//else // we should send an error message and bail out, unknown console
+
+	char buf[100];
+	if(m_synchDir == CSurf_YamahaDMENet::TOREAPER)
+		sprintf(buf, "Initialized with Synch to Reaper\n");
+	else if(m_synchDir == CSurf_YamahaDMENet::TOYAMAHA)
+		sprintf(buf, "Initialized with Synch to Yamaha\n");
+	else if(m_synchDir == CSurf_YamahaDMENet::NONE)
+		sprintf(buf, "Initialized with No synch\n");
+	OutputDebugString(buf);
 }
 
 /**
@@ -75,17 +84,20 @@ CSurf_YamahaDMENet::~CSurf_YamahaDMENet()
 */
 const char *CSurf_YamahaDMENet::GetDescString()
 {
-	char tmp[100], indev[10], outdev[10];
+	char tmp[150], indev[10], outdev[10];
 	
 	if(!GetMIDIInputName(m_midi_in_dev, indev, sizeof(indev)))
-		sprintf(indev, "Undef");
+		sprintf(indev, "Err: Dev not found");
 
 	if(!GetMIDIOutputName(m_midi_out_dev, outdev, sizeof(outdev)))
-		sprintf(outdev, "Undef");
+		sprintf(outdev, "Err: Dev not found");
 
-	sprintf(tmp, "Yamaha DME Network (%s, %s)", indev, outdev);
+	if(m_midiin && m_midiout)
+		sprintf(tmp, "Yamaha DME Network (In: %s, Out: %s)", indev, outdev);
+	else
+		sprintf(tmp, "Yamaha DME Network (In: Err - Not connected, Out: Err - Not connected)");
 
-	WDL_String desc(tmp);
+	desc.Set(tmp, sizeof(tmp));
 	return desc.Get();     
 }
 
@@ -96,7 +108,7 @@ const char *CSurf_YamahaDMENet::GetDescString()
 */
 const char *CSurf_YamahaDMENet::GetConfigString()
 {
-	sprintf(configtmp,"0 0 %d %d",m_midi_in_dev,m_midi_out_dev);      
+	sprintf(configtmp,"%d %d %d", m_midi_in_dev, m_midi_out_dev, m_synchDir);
 	return configtmp;
 }
 
@@ -122,7 +134,7 @@ void CSurf_YamahaDMENet::CloseNoReset()
 */
 void CSurf_YamahaDMENet::Run()
 {
-	if (m_midiin)
+	if (m_midiin && m_Yamaha)
 	{
 		m_midiin->SwapBufs(timeGetTime());
 		int l=0;

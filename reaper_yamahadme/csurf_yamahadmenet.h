@@ -28,7 +28,13 @@
 class CSurf_YamahaDMENet : public IReaperControlSurface
 {
 public:
-	CSurf_YamahaDMENet(int indev, int outdev, int *errStats);
+	enum SynchDirection {
+		NONE,
+		TOYAMAHA,
+		TOREAPER
+	};
+
+	CSurf_YamahaDMENet(int indev, int outdev, SynchDirection sDir, int *errStats);
 	~CSurf_YamahaDMENet();
 
 	const char *GetTypeString() { return "Yamaha DME-Network"; }
@@ -37,29 +43,32 @@ public:
 	void CloseNoReset();
 	void Run();
 
-	void SetTrackListChange() { m_Yamaha->SetTrackListChange(); }
-	void SetSurfaceVolume(MediaTrack *tr, double volume) { m_Yamaha->SetSurfaceVolume(tr, volume); }
-	void SetSurfacePan(MediaTrack *tr, double pan) { m_Yamaha->SetSurfacePan(tr, pan); }
-	void SetSurfaceMute(MediaTrack *tr, bool mute) { m_Yamaha->SetSurfaceMute(tr, mute); }
-	void SetSurfaceSelected(MediaTrack *tr, bool selected) { m_Yamaha->SetSurfaceSelected(tr, selected); }
-	void SetSurfaceSolo(MediaTrack *tr, bool solo) { m_Yamaha->SetSurfaceSolo(tr, solo); }
-	void SetSurfaceRecArm(MediaTrack *tr, bool recarm) { m_Yamaha->SetSurfaceRecArm(tr, recarm); }
-	void SetPlayState(bool play, bool pause, bool rec) { m_Yamaha->SetPlayState(play, pause, rec); }
-	void SetRepeatState(bool rep) { m_Yamaha->SetRepeatState(rep); }
-	void SetTrackTitle(MediaTrack *tr, const char *title) { m_Yamaha->SetTrackTitle(tr, title); }
-	bool GetTouchState(MediaTrack *tr, int isPan) { return m_Yamaha->GetTouchState(tr, isPan); }
-	void SetAutoMode(int mode) { m_Yamaha->SetAutoMode(mode); }
-	void ResetCachedVolPanStates() { m_Yamaha->ResetCachedVolPanStates(); }
-	void OnTrackSelection(MediaTrack *tr) { m_Yamaha->OnTrackSelection(tr); }
-	bool IsKeyDown(int key) { return m_Yamaha->IsKeyDown(key); }
-	int Extended(int call, void *parm1, void *parm2, void *parm3) { return m_Yamaha->Extended(call, parm1, parm2, parm3); }
+	void SetTrackListChange() { if(m_Yamaha) m_Yamaha->SetTrackListChange(); }
+	void SetSurfaceVolume(MediaTrack *tr, double volume) { if(m_Yamaha) m_Yamaha->SetSurfaceVolume(tr, volume); }
+	void SetSurfacePan(MediaTrack *tr, double pan) { if(m_Yamaha) m_Yamaha->SetSurfacePan(tr, pan); }
+	void SetSurfaceMute(MediaTrack *tr, bool mute) { if(m_Yamaha) m_Yamaha->SetSurfaceMute(tr, mute); }
+	void SetSurfaceSelected(MediaTrack *tr, bool selected) { if(m_Yamaha) m_Yamaha->SetSurfaceSelected(tr, selected); }
+	void SetSurfaceSolo(MediaTrack *tr, bool solo) { if(m_Yamaha) m_Yamaha->SetSurfaceSolo(tr, solo); }
+	void SetSurfaceRecArm(MediaTrack *tr, bool recarm) { if(m_Yamaha) m_Yamaha->SetSurfaceRecArm(tr, recarm); }
+	void SetPlayState(bool play, bool pause, bool rec) { if(m_Yamaha) m_Yamaha->SetPlayState(play, pause, rec); }
+	void SetRepeatState(bool rep) { if(m_Yamaha) m_Yamaha->SetRepeatState(rep); }
+	void SetTrackTitle(MediaTrack *tr, const char *title) { if(m_Yamaha) m_Yamaha->SetTrackTitle(tr, title); }
+	bool GetTouchState(MediaTrack *tr, int isPan) { if(m_Yamaha) return m_Yamaha->GetTouchState(tr, isPan); return false; }
+	void SetAutoMode(int mode) { if(m_Yamaha) m_Yamaha->SetAutoMode(mode); }
+	void ResetCachedVolPanStates() { if(m_Yamaha) m_Yamaha->ResetCachedVolPanStates(); }
+	void OnTrackSelection(MediaTrack *tr) { if(m_Yamaha) m_Yamaha->OnTrackSelection(tr); }
+	bool IsKeyDown(int key) { if(m_Yamaha) return m_Yamaha->IsKeyDown(key); return false; }
+	int Extended(int call, void *parm1, void *parm2, void *parm3) { if(m_Yamaha) return m_Yamaha->Extended(call, parm1, parm2, parm3); return 0; }
 
 private:
 	int m_midi_in_dev,m_midi_out_dev;
+	SynchDirection m_synchDir;
+
 	midi_Output *m_midiout;
 	midi_Input *m_midiin;
 
 	char configtmp[1024];
+	WDL_String desc;
 
 	YamahaDME *m_Yamaha;
 };

@@ -52,8 +52,6 @@
     </ClCompile>
   </ItemGroup>
   <ItemGroup>
-    <ResourceCompile Include="res.rc">
-      <Filter>Resource Files</Filter>
-    </ResourceCompile>
+    <Resource Include="res.res" />
   </ItemGroup>
 </Project>

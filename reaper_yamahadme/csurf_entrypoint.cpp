@@ -11,11 +11,11 @@
 /**
 	Parameter parsing function
 */
-static void parseParms(const char *str, int parms[4])
+static void parseParms(const char *str, int parms[3])
 {
-  parms[0]=0;
-  parms[1]=9;
-  parms[2]=parms[3]=-1;
+  parms[0]=-1;
+  parms[1]=-1;
+  parms[2]=1;
 
   const char *p=str;
   if (p)
@@ -37,10 +37,10 @@ static void parseParms(const char *str, int parms[4])
 */
 static IReaperControlSurface *createFunc(const char *type_string, const char *configString, int *errStats)
 {
-  int parms[4];
+  int parms[3];
   parseParms(configString,parms);
 
-  return new CSurf_YamahaDMENet(parms[2],parms[3],errStats);
+  return new CSurf_YamahaDMENet(parms[0], parms[1], (CSurf_YamahaDMENet::SynchDirection)parms[2], errStats);
 }
 
 /**
@@ -53,15 +53,25 @@ static WDL_DLGRET dlgProc(HWND hwndDlg, UINT uMsg, WPARAM wParam, LPARAM lParam)
   {
     case WM_INITDIALOG:
       {
-        int parms[4];
+        int parms[3];
         parseParms((const char *)lParam,parms);
+		OutputDebugString((const char*)lParam);
 
-		// Hides textboxes
-		ShowWindow(GetDlgItem(hwndDlg,IDC_EDIT1),SW_HIDE);
-        ShowWindow(GetDlgItem(hwndDlg,IDC_EDIT1_LBL),SW_HIDE);
-        ShowWindow(GetDlgItem(hwndDlg,IDC_EDIT2),SW_HIDE);
-        ShowWindow(GetDlgItem(hwndDlg,IDC_EDIT2_LBL),SW_HIDE);
-        ShowWindow(GetDlgItem(hwndDlg,IDC_EDIT2_LBL2),SW_HIDE);
+		// Default synch method is to yamaha
+		switch(parms[2])
+		{
+		case CSurf_YamahaDMENet::TOYAMAHA:
+			CheckDlgButton(hwndDlg, IDC_RADIO1, BST_CHECKED);
+			break;
+		case CSurf_YamahaDMENet::TOREAPER:
+			CheckDlgButton(hwndDlg, IDC_RADIO2, BST_CHECKED);
+			break;
+		case CSurf_YamahaDMENet::NONE:
+			CheckDlgButton(hwndDlg, IDC_RADIO3, BST_CHECKED);
+			break;
+		default:
+			CheckDlgButton(hwndDlg, IDC_RADIO1, BST_CHECKED);
+		};
 
         int n=GetNumMIDIInputs();
         int x=SendDlgItemMessage(hwndDlg,IDC_COMBO2,CB_ADDSTRING,0,(LPARAM)"None");
@@ -75,10 +85,11 @@ static WDL_DLGRET dlgProc(HWND hwndDlg, UINT uMsg, WPARAM wParam, LPARAM lParam)
           {
             int a=SendDlgItemMessage(hwndDlg,IDC_COMBO2,CB_ADDSTRING,0,(LPARAM)buf);
             SendDlgItemMessage(hwndDlg,IDC_COMBO2,CB_SETITEMDATA,a,x);
-            if (x == parms[2]) SendDlgItemMessage(hwndDlg,IDC_COMBO2,CB_SETCURSEL,a,0);
+            if (x == parms[0]) SendDlgItemMessage(hwndDlg,IDC_COMBO2,CB_SETCURSEL,a,0);
           }
         }
-        n=GetNumMIDIOutputs();
+
+		n=GetNumMIDIOutputs();
         for (x = 0; x < n; x ++)
         {
           char buf[512];
@@ -86,38 +97,33 @@ static WDL_DLGRET dlgProc(HWND hwndDlg, UINT uMsg, WPARAM wParam, LPARAM lParam)
           {
             int a=SendDlgItemMessage(hwndDlg,IDC_COMBO3,CB_ADDSTRING,0,(LPARAM)buf);
             SendDlgItemMessage(hwndDlg,IDC_COMBO3,CB_SETITEMDATA,a,x);
-            if (x == parms[3]) SendDlgItemMessage(hwndDlg,IDC_COMBO3,CB_SETCURSEL,a,0);
+            if (x == parms[1]) SendDlgItemMessage(hwndDlg,IDC_COMBO3,CB_SETCURSEL,a,0);
           }
         }
-        SetDlgItemInt(hwndDlg,IDC_EDIT1,parms[0],TRUE);
-        SetDlgItemInt(hwndDlg,IDC_EDIT2,parms[1],FALSE);
       }
     break;
-    case WM_USER+1024:
+
+	case WM_USER+1024:
       if (wParam > 1 && lParam)
       {
-        char tmp[512];
+        char tmp[10];
 
-        int indev=-1, outdev=-1, offs=0, size=9;
+        int indev=-1, outdev=-1;
         int r=SendDlgItemMessage(hwndDlg,IDC_COMBO2,CB_GETCURSEL,0,0);
         if (r != CB_ERR) indev = SendDlgItemMessage(hwndDlg,IDC_COMBO2,CB_GETITEMDATA,r,0);
         r=SendDlgItemMessage(hwndDlg,IDC_COMBO3,CB_GETCURSEL,0,0);
         if (r != CB_ERR)  outdev = SendDlgItemMessage(hwndDlg,IDC_COMBO3,CB_GETITEMDATA,r,0);
 
-        BOOL t;
-        r=GetDlgItemInt(hwndDlg,IDC_EDIT1,&t,TRUE);
-        if (t) offs=r;
-        r=GetDlgItemInt(hwndDlg,IDC_EDIT2,&t,FALSE);
-        if (t) 
-        {
-          if (r<1)r=1;
-          else if(r>256)r=256;
-          size=r;
-        }
+		CSurf_YamahaDMENet::SynchDirection dir = CSurf_YamahaDMENet::NONE;
+		if(IsDlgButtonChecked(hwndDlg, IDC_RADIO1))
+			dir = CSurf_YamahaDMENet::TOYAMAHA;
+		else if(IsDlgButtonChecked(hwndDlg, IDC_RADIO2))
+			dir = CSurf_YamahaDMENet::TOREAPER;
+		else if(IsDlgButtonChecked(hwndDlg, IDC_RADIO3))
+			dir = CSurf_YamahaDMENet::NONE;
 
-        sprintf(tmp,"%d %d %d %d",offs,size,indev,outdev);
-        lstrcpyn((char *)lParam, tmp,wParam);
-        
+        sprintf(tmp,"%d %d %d", indev, outdev, dir);
+        lstrcpyn((char *)lParam, tmp,wParam);        
       }
     break;
   }
@@ -129,7 +135,7 @@ static WDL_DLGRET dlgProc(HWND hwndDlg, UINT uMsg, WPARAM wParam, LPARAM lParam)
 */
 static HWND configFunc(const char *type_string, HWND parent, const char *initConfigString)
 {
-	return CreateDialogParam(g_hInst,MAKEINTRESOURCE(IDD_SURFACEEDIT_MCU),parent,dlgProc,(LPARAM)initConfigString);
+	return CreateDialogParam(g_hInst,MAKEINTRESOURCE(IDD_SURFACEEDIT),parent,dlgProc,(LPARAM)initConfigString);
 }
 
 /**
