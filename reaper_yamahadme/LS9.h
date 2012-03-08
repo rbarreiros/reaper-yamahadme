@@ -17,6 +17,7 @@ public:
 	void synchToReaper() {}
 
 	double getFaderYamahaToReaper(int vol);
+	int getFaderReaperToYamaha(double vol);
 
 	// Yamaha to Reaper
 
@@ -25,12 +26,14 @@ public:
 	bool OnInputFaderChange(MidiEvt *evt);
 	bool OnInputCueChange(MidiEvt *evt);
 	bool OnChannelSelected(MidiEvt *evt);
+	bool OnChannelSelectPush(MidiEvt *evt);
 
 	// Reaper to Yamaha
 
 	void SetSurfaceMute(MediaTrack *tr, bool mute);
 	void SetSurfacePan(MediaTrack *tr, double pan);
 	void SetSurfaceSelected(MediaTrack *tr, bool selected);
+	void SetSurfaceVolume(MediaTrack *tr, double volume);
 };
 
 

@@ -10,19 +10,38 @@ struct EventHandler
 };
 
 // Our event tables
-static const int nHandlers = 5;
+static const int nHandlers = 6;
 static const EventHandler events[nHandlers] = {
 	{ 0x00, 0x31, &LS9::OnInputOnChange },
 	{ 0x00, 0x32, &LS9::OnInputPanChange },
 	{ 0x00, 0x33, &LS9::OnInputFaderChange },
 	{ 0x01, 0x5e, &LS9::OnInputCueChange },
 	{ 0x02, 0x39, &LS9::OnChannelSelected },
-	//{ 0x02, 0x41, &LS9::OnChannelSelectPush }, receives 2 events, on sel key press and on sel key release
+	{ 0x02, 0x41, &LS9::OnChannelSelectPush }, //receives 2 events, on sel key press and on sel key release
 };
 
 double LS9::getFaderYamahaToReaper(int volume)
 {
 	return DB2VAL(LS9_val2db[volume]);
+}
+
+int LS9::getFaderReaperToYamaha(double volume)
+{
+	float db = (float)(VAL2DB(volume));
+	int lastLowestVal = 0;
+
+	// round it to 2 decimal places
+	db = floorf(db * 100 + (float)0.5) / 100;
+
+	for(int i = 0; i < LS9_nVolumeValues; i++)
+	{
+		if(LS9_val2db[i] == db)
+			return i;
+		else if(LS9_val2db[i] < db) // closest lowest value if we don't get a match
+			lastLowestVal = i;
+	}
+
+	return lastLowestVal;
 }
 
 /*******************************************
@@ -108,7 +127,6 @@ bool LS9::OnInputCueChange(MidiEvt *evt)
 
 bool LS9::OnChannelSelected(MidiEvt *evt)
 {
-	//m_SelPressed = (getMidiDataValue(evt) == 1);
 	MediaTrack *tr = getTrackFromId((getMidiDataValue(evt) + 1));
 	if(tr)
 	{
@@ -116,6 +134,21 @@ bool LS9::OnChannelSelected(MidiEvt *evt)
 		CSurf_OnSelectedChange(tr, 1);
 	} else
 		return false;
+
+	return true;
+}
+
+bool LS9::OnChannelSelectPush(MidiEvt *evt)
+{
+	m_SelPressed = (getMidiDataValue(evt) == 0x01);
+	if(m_SelPressed)
+	{
+		// Start timer
+	} 
+	else
+	{
+		// Stop/Cancel timer
+	}
 
 	return true;
 }
@@ -171,3 +204,7 @@ void LS9::SetSurfaceSelected(MediaTrack *tr, bool selected)
 	}
 }
 
+void LS9::SetSurfaceVolume(MediaTrack *tr, double volume)
+{
+	sendToYamaha(0x00, 0x33, 0x00, (CSurf_TrackToID(tr, MCP_MODE) - 1), getFaderReaperToYamaha(volume));
+}
