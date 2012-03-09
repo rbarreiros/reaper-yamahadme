@@ -94,6 +94,24 @@ public:
 	virtual bool IsKeyDown(int key) { return false; }
 	virtual int Extended(int call, void *parm1, void *parm2, void *parm3) { return 0; }
 
+	/*
+		LS9/M7CL/PM5D have no controls for recording, like arm, play, stop, pause, loop, etc
+		so were implementing them more or less, by mapping button presses with the select pressed
+		for instance to record arm a track, press [SEL] + [CUE] for the channel you wish to arm.
+
+		To see which channels are armed in the desk, press [SEL] and keep it pressed for more than
+		3 seconds. This is why we required to move Run() into this class, so we can time funcions
+		as Run() is ran all the time at a specific frequency regardless of midi data.
+
+		This methods can be overriden.
+	*/
+	virtual void sendCurrentArmRecordSet();
+	virtual void sendClearCurrentArmRecordSet();
+	virtual void onArmRecord(MidiEvt *evt);
+
+
+
+
 #ifdef _DEBUG
 	// Utility debug function
 	static void __cdecl Debug(const char *format, ...);
@@ -120,6 +138,9 @@ protected:
 	midi_Output *m_midiOutput;
 	DeskType desk;
 	SynchDirection m_synchDir;
+
+	// Max channels we'll eventually handle will be 168 (PM5D)
+	unsigned int m_cueSave[200];
 
 	char configtmp[1024];
 	WDL_String desc;

@@ -153,11 +153,16 @@ bool LS9::OnInputFaderChange(MidiEvt *evt)
 
 bool LS9::OnInputCueChange(MidiEvt *evt)
 {
-	MediaTrack *tr = getTrack(evt);
+	int track = getMidiTrackId(evt);
+	MediaTrack *tr = getTrackFromId(track);
 	if(tr)
 	{
 		clearAllSelectedTracks();
 		CSurf_OnSelectedChange(tr, 1);
+
+		// save our cue list
+		if(track < 200) m_cueSave[track] = (getMidiDataValue(evt) > 1) ? 1 : 0;
+
 		if(getMidiDataValue(evt) > 0)
 			SendMessage(g_hwnd,WM_COMMAND, 40493,0);
 		else
@@ -208,12 +213,14 @@ void LS9::synchToReaper()
 
 		// How many channels we have setup
 		int nChannels = CSurf_NumTracks(MCP_MODE);
-		char b[100]; 
-		sprintf(b, "NumChannels: %d\n", nChannels);
-		OutputDebugString(b);
-		// Should we be sure the channel exists ?!?!? (TODO)
+#ifdef _DEBUG
+		Debug("NumChannels: %d\n", nChannels);
+#endif
 		for(int c = 0; c < nChannels; c++)
 		{
+			// Max channels is from PM5D, which is 168
+			if(c > 168) return;
+
 			sendToYamahaRequest(handler.opcodeA, handler.opcodeB, handler.param, c);
 		}
 	}

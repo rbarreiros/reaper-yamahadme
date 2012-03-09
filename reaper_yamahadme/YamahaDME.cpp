@@ -451,3 +451,49 @@ void __cdecl YamahaDME::Debug(const char *format, ...)
 	OutputDebugString(buf);
 }
 #endif
+
+/**
+	sendCurrentArmRecordSet
+
+	Sends all currently armed tracks as CUE on message to the desk
+	only if the [SEL] key is pressed for more than ~3 seconds
+
+	We have the current cue list saved to be returned to the desk when
+	the [SEL] key is 'unpressed'
+
+	TODO - NOT IMPLEMETED
+*/
+void YamahaDME::sendCurrentArmRecordSet()
+{
+}
+
+/**
+	sendClearCurrentArmRecordSet
+
+	Clears the cues we sent to the desk and return the 
+	cues we had before we pressed [SEL]
+
+	TODO - NOT IMPLEMETED
+*/
+void YamahaDME::sendClearCurrentArmRecordSet()
+{
+	// we need to find the clear cue opcode and send that instead
+	// no idea if all the desks have that, certain LS9 has
+}
+
+/**
+	onArmRecord
+
+	When [SEL] + [CUE] is pressed we arm the track record.
+
+	TODO - NOT IMPLEMETED
+*/
+void YamahaDME::onArmRecord(MidiEvt *evt)
+{
+	if(!m_SelPressed)
+		return;
+
+}
+
+
+
