@@ -69,6 +69,12 @@ int LS9::getFaderReaperToYamaha(double volume)
 	Yamaha to Reaper
 ********************************************/
 
+/**
+	onMidiEvent
+
+	The main processing method, all midi events received 
+	are processed here.
+*/
 void LS9::onMidiEvent(MidiEvt *evt)
 {
 	if(m_initialized == false)
@@ -78,7 +84,7 @@ void LS9::onMidiEvent(MidiEvt *evt)
 			OutputDebugString("Calling synchToReaper()\n");
 			synchToReaper();
 		}
-		else if(m_synchDir == YamahaDME::TOYAMAHA) // shouldn't really need this at all, stays if it's needed in future
+		else if(m_synchDir == YamahaDME::TOYAMAHA) // shouldn't really need this at all, stays if needed in future
 		{
 			OutputDebugString("Calling synchToYamaha()\n");
 			synchToYamaha();
@@ -88,6 +94,7 @@ void LS9::onMidiEvent(MidiEvt *evt)
 
 	if(evt->size != 18) return; // we don't handle requests, only info
 	if(evt->midi_message[0] != 0xf0 || evt->midi_message[17] != 0xf7) return; // invalid info packet
+	if(evt->midi_message[4] != YamahaDME::LS9) return; // not an LS9 Midi Message
 
 	unsigned int opcodeA = evt->midi_message[6];
 	unsigned int opcodeB = evt->midi_message[7];

@@ -32,7 +32,7 @@ class LS9 : public YamahaDME
 {
 public:
 	// Constructor
-	LS9(midi_Input *in, midi_Output *out, YamahaDME::SynchDirection dir) : YamahaDME(in, out, dir) { desk = YamahaDME::LS9; }
+	LS9(int inDev, int outDev, YamahaDME::SynchDirection dir, int *errStats) : YamahaDME(inDev, outDev, dir, errStats) { desk = YamahaDME::LS9; }
 
 	// Processing
 	void onMidiEvent(MidiEvt *evt);

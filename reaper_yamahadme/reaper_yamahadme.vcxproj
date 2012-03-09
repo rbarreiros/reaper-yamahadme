@@ -79,7 +79,6 @@
   </ItemDefinitionGroup>
   <ItemGroup>
     <ClInclude Include="csurf.h" />
-    <ClInclude Include="csurf_yamahadmenet.h" />
     <ClInclude Include="LS9.h" />
     <ClInclude Include="reaper_plugin.h" />
     <ClInclude Include="resource.h" />
@@ -88,7 +87,6 @@
   <ItemGroup>
     <ClCompile Include="csurf_entrypoint.cpp" />
     <ClCompile Include="csurf_main.cpp" />
-    <ClCompile Include="csurf_yamahadmenet.cpp" />
     <ClCompile Include="LS9.cpp" />
     <ClCompile Include="YamahaDME.cpp" />
   </ItemGroup>

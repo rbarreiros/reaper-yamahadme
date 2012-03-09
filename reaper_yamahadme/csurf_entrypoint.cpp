@@ -6,7 +6,7 @@
 
 #include "csurf.h"
 #include "../WDL/ptrlist.h"
-#include "csurf_yamahadmenet.h"
+#include "LS9.h"
 
 /**
 	Parameter parsing function
@@ -40,7 +40,15 @@ static IReaperControlSurface *createFunc(const char *type_string, const char *co
   int parms[3];
   parseParms(configString,parms);
 
-  return new CSurf_YamahaDMENet(parms[0], parms[1], (YamahaDME::SynchDirection)parms[2], errStats);
+  // Detect which desk were dealing with
+  char name[10];
+  GetMIDIInputName(parms[0], name, sizeof(name));
+  if(_strcmpi(name, "ls9"))
+	return new LS9(parms[0], parms[1], (YamahaDME::SynchDirection)parms[2], errStats);
+  // else if(_strcmpi(name, 'm7cl'))
+  // else if(_strcmpi(name, 'pm5d'))
+  else
+	return NULL; // Can we do this !!?!?
 }
 
 /**
