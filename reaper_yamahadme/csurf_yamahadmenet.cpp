@@ -29,7 +29,8 @@
 	@Param[out]	errStats	Errors
 */
 
-CSurf_YamahaDMENet::CSurf_YamahaDMENet(int indev, int outdev, SynchDirection dir, int *errStats) : m_synchDir(dir)
+CSurf_YamahaDMENet::CSurf_YamahaDMENet(int indev, int outdev, YamahaDME::SynchDirection dir, int *errStats) : 
+	m_synchDir(dir)
 {
 	m_midi_in_dev=indev;
 	m_midi_out_dev=outdev;
@@ -52,17 +53,17 @@ CSurf_YamahaDMENet::CSurf_YamahaDMENet(int indev, int outdev, SynchDirection dir
 	char name[10];
 	GetMIDIInputName(m_midi_in_dev, name, sizeof(name));
 	if(_strcmpi(name, "ls9") == 0)
-		m_Yamaha = new LS9(m_midiin, m_midiout);
+		m_Yamaha = new LS9(m_midiin, m_midiout, m_synchDir);
 	//else if(_strcmpi(name, "m7cl") == 0) // Init M7CL
 	//else if(_strcmpi(name, "pm5d") == 0) // Init PM5D
 	//else // we should send an error message and bail out, unknown console
 
 	char buf[100];
-	if(m_synchDir == CSurf_YamahaDMENet::TOREAPER)
+	if(m_synchDir == YamahaDME::TOREAPER)
 		sprintf(buf, "Initialized with Synch to Reaper\n");
-	else if(m_synchDir == CSurf_YamahaDMENet::TOYAMAHA)
+	else if(m_synchDir == YamahaDME::TOYAMAHA)
 		sprintf(buf, "Initialized with Synch to Yamaha\n");
-	else if(m_synchDir == CSurf_YamahaDMENet::NONE)
+	else if(m_synchDir == YamahaDME::NONE)
 		sprintf(buf, "Initialized with No synch\n");
 	OutputDebugString(buf);
 }

@@ -28,13 +28,8 @@
 class CSurf_YamahaDMENet : public IReaperControlSurface
 {
 public:
-	enum SynchDirection {
-		NONE,
-		TOYAMAHA,
-		TOREAPER
-	};
 
-	CSurf_YamahaDMENet(int indev, int outdev, SynchDirection sDir, int *errStats);
+	CSurf_YamahaDMENet(int indev, int outdev, YamahaDME::SynchDirection sDir, int *errStats);
 	~CSurf_YamahaDMENet();
 
 	const char *GetTypeString() { return "Yamaha DME-Network"; }
@@ -62,7 +57,7 @@ public:
 
 private:
 	int m_midi_in_dev,m_midi_out_dev;
-	SynchDirection m_synchDir;
+	YamahaDME::SynchDirection m_synchDir;
 
 	midi_Output *m_midiout;
 	midi_Input *m_midiin;

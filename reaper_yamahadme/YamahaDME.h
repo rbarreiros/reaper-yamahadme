@@ -34,6 +34,12 @@ typedef MIDI_event_t MidiEvt; // Shorter typing
 class YamahaDME
 {
 public:
+	enum SynchDirection {
+		NONE,
+		TOYAMAHA,
+		TOREAPER
+	};
+
 	enum DeskType {
 		UNDEF = 0x00,
 		PM5D = 0x0F,
@@ -41,12 +47,24 @@ public:
 		LS9 = 0x12
 	}; 
 
-	YamahaDME(midi_Input *in, midi_Output *out) : m_SelPressed(false), desk(YamahaDME::UNDEF) { m_midiInput = in; m_midiOutput = out; }
+	YamahaDME(midi_Input *in, midi_Output *out, SynchDirection dir);
+	
 	virtual void onMidiEvent(MidiEvt *evt) = 0;
-	virtual void synchToYamaha() = 0;
-	virtual void synchToReaper() = 0;
 
+	/* 
+		Not really needed, stays for future use if necessary, this is normal behaviour
+		as reaper will call all Set* functions that will send all the sysex to yamaha on startup
+	*/
+	virtual void synchToYamaha() { OutputDebugString("Synch to Yamaha called\n"); } 
+	/*
+		This one is required to be implemented, will send all messages requesting parameter
+		info to yamaha.
+	*/
+	virtual void synchToReaper() {}
+
+	// DB Values might vary between consoles, each implementation might be diff
 	virtual double getFaderYamahaToReaper(int volume) = 0;
+	virtual int getFaderReaperToYamaha(double volume) = 0;
 
 	virtual void SetTrackListChange() {}
 	virtual void SetSurfaceVolume(MediaTrack *tr, double volume) {}
@@ -65,12 +83,11 @@ public:
 	virtual bool IsKeyDown(int key) { return false; }
 	virtual int Extended(int call, void *parm1, void *parm2, void *parm3) { return 0; }
 
-	void sendToYamaha(unsigned int opcodeA, unsigned int opcodeB, int param, int channel, int data);
-
 protected:
-	int getPanReaperToYamaha(double pan);
-	int getFaderReaperToYamaha(double volume);
+	void sendToYamaha(unsigned int opcodeA, unsigned int opcodeB, int param, int channel, int data);
+	void sendToYamahaRequest(unsigned int opcodeA, unsigned int opcodeB, int param, int channel);
 
+	int getPanReaperToYamaha(double pan);
 	double getPanYamahaToReaper(int pan);
 
 	int getMidiDataValue(MidiEvt *evt, bool isSigned = false);
@@ -81,10 +98,11 @@ protected:
 
 	void clearAllSelectedTracks();
 
-	bool m_SelPressed;
+	bool m_SelPressed, m_initialized;
 	midi_Input *m_midiInput;
 	midi_Output *m_midiOutput;
 	DeskType desk;
+	SynchDirection m_synchDir;
 };
 
 #endif

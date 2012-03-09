@@ -40,7 +40,7 @@ static IReaperControlSurface *createFunc(const char *type_string, const char *co
   int parms[3];
   parseParms(configString,parms);
 
-  return new CSurf_YamahaDMENet(parms[0], parms[1], (CSurf_YamahaDMENet::SynchDirection)parms[2], errStats);
+  return new CSurf_YamahaDMENet(parms[0], parms[1], (YamahaDME::SynchDirection)parms[2], errStats);
 }
 
 /**
@@ -60,13 +60,13 @@ static WDL_DLGRET dlgProc(HWND hwndDlg, UINT uMsg, WPARAM wParam, LPARAM lParam)
 		// Default synch method is to yamaha
 		switch(parms[2])
 		{
-		case CSurf_YamahaDMENet::TOYAMAHA:
+		case YamahaDME::TOYAMAHA:
 			CheckDlgButton(hwndDlg, IDC_RADIO1, BST_CHECKED);
 			break;
-		case CSurf_YamahaDMENet::TOREAPER:
+		case YamahaDME::TOREAPER:
 			CheckDlgButton(hwndDlg, IDC_RADIO2, BST_CHECKED);
 			break;
-		case CSurf_YamahaDMENet::NONE:
+		case YamahaDME::NONE:
 			CheckDlgButton(hwndDlg, IDC_RADIO3, BST_CHECKED);
 			break;
 		default:
@@ -114,13 +114,13 @@ static WDL_DLGRET dlgProc(HWND hwndDlg, UINT uMsg, WPARAM wParam, LPARAM lParam)
         r=SendDlgItemMessage(hwndDlg,IDC_COMBO3,CB_GETCURSEL,0,0);
         if (r != CB_ERR)  outdev = SendDlgItemMessage(hwndDlg,IDC_COMBO3,CB_GETITEMDATA,r,0);
 
-		CSurf_YamahaDMENet::SynchDirection dir = CSurf_YamahaDMENet::NONE;
+		YamahaDME::SynchDirection dir = YamahaDME::NONE;
 		if(IsDlgButtonChecked(hwndDlg, IDC_RADIO1))
-			dir = CSurf_YamahaDMENet::TOYAMAHA;
+			dir = YamahaDME::TOYAMAHA;
 		else if(IsDlgButtonChecked(hwndDlg, IDC_RADIO2))
-			dir = CSurf_YamahaDMENet::TOREAPER;
+			dir = YamahaDME::TOREAPER;
 		else if(IsDlgButtonChecked(hwndDlg, IDC_RADIO3))
-			dir = CSurf_YamahaDMENet::NONE;
+			dir = YamahaDME::NONE;
 
         sprintf(tmp,"%d %d %d", indev, outdev, dir);
         lstrcpyn((char *)lParam, tmp,wParam);        

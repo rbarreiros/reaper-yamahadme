@@ -31,16 +31,20 @@ static const double LS9_val2db[LS9_nVolumeValues] = {
 class LS9 : public YamahaDME
 {
 public:
-	LS9(midi_Input *in, midi_Output *out) : YamahaDME(in, out) { desk = YamahaDME::LS9; }
-	void onMidiEvent(MidiEvt *evt);
-	void synchToYamaha() {}
-	void synchToReaper() {}
+	// Constructor
+	LS9(midi_Input *in, midi_Output *out, YamahaDME::SynchDirection dir) : YamahaDME(in, out, dir) { desk = YamahaDME::LS9; }
 
+	// Processing
+	void onMidiEvent(MidiEvt *evt);
+
+	// Conversions
 	double getFaderYamahaToReaper(int vol);
 	int getFaderReaperToYamaha(double vol);
 
-	// Yamaha to Reaper
+	// Synch
+	void synchToReaper();
 
+	// Yamaha to Reaper
 	bool OnInputOnChange(MidiEvt *evt);
 	bool OnInputPanChange(MidiEvt *evt);
 	bool OnInputFaderChange(MidiEvt *evt);
@@ -49,12 +53,10 @@ public:
 	bool OnChannelSelectPush(MidiEvt *evt);
 
 	// Reaper to Yamaha
-
 	void SetSurfaceMute(MediaTrack *tr, bool mute);
 	void SetSurfacePan(MediaTrack *tr, double pan);
 	void SetSurfaceSelected(MediaTrack *tr, bool selected);
 	void SetSurfaceVolume(MediaTrack *tr, double volume);
 };
-
 
 #endif // __LS9_H__

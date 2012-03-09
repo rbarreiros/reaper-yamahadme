@@ -20,15 +20,16 @@
 
 #include "YamahaDME.h"
 
+YamahaDME::YamahaDME(midi_Input *in, midi_Output *out, SynchDirection dir) : 
+		m_SelPressed(false), desk(YamahaDME::UNDEF), m_synchDir(dir), m_initialized(false) 
+{ 
+	m_midiInput = in; 
+	m_midiOutput = out; 
+}
+
 int YamahaDME::getPanReaperToYamaha(double pan)
 {
 	return (int)(pan * 63.0);
-}
-
-int YamahaDME::getFaderReaperToYamaha(double volume)
-{
-	// TODO
-	return 0;
 }
 
 double YamahaDME::getPanYamahaToReaper(int pan)
@@ -93,6 +94,15 @@ void YamahaDME::sendToYamaha(unsigned int opcodeA, unsigned int opcodeB, int par
 	if(desk == YamahaDME::UNDEF)
 		return;
 
+	/* 
+		If the synch is anything different than Reaper -> Yamaha
+		we won't allow sending data to prevent sending data to yamaha
+		and override it's current values at system startup when it is not initialized.
+		Initialization should me marked true when onMidiEvent is called
+	*/
+	if( m_synchDir != YamahaDME::TOYAMAHA && !m_initialized )
+		return;
+
 	struct
 	{
 		MIDI_event_t evt;
@@ -144,5 +154,74 @@ void YamahaDME::sendToYamaha(unsigned int opcodeA, unsigned int opcodeB, int par
 		yam.evt.midi_message[15],
 		yam.evt.midi_message[16],
 		yam.evt.midi_message[17]);
+	OutputDebugString(buf);
+}
+
+/*
+	Yamaha Sysex request format:
+	F0 43 30 3E 12 01 oa ob pp pp cc cc F7
+
+	F0 = SOX
+	43 = YAMAHA
+	3n = Prm Chg (n=0-15)
+	3E = Digital Mixer
+	12 = Mixer (12 = LS9-16/32, 11 = MONACO (M7CL), 0F = PM5D)
+	01 = Parameter request
+	oa = opcode A  (7bit)
+	ob = opcode B  (7bit)
+	pp = parameter (14bit)
+	cc = channel   (14bit)
+	F7 = EOX
+
+*/
+void YamahaDME::sendToYamahaRequest(unsigned int opcodeA, unsigned int opcodeB, int param, int channel)
+{
+	if(!m_midiOutput)
+		return;
+
+	if(desk == YamahaDME::UNDEF)
+		return;
+
+	struct
+	{
+		MIDI_event_t evt;
+		unsigned char data[9];
+	} yam;
+
+	yam.evt.frame_offset = 0;
+	yam.evt.size = 0;
+
+	yam.evt.midi_message[yam.evt.size++] = 0xf0;
+	yam.evt.midi_message[yam.evt.size++] = 0x43;
+	yam.evt.midi_message[yam.evt.size++] = 0x10;
+	yam.evt.midi_message[yam.evt.size++] = 0x3e;
+	yam.evt.midi_message[yam.evt.size++] = desk;
+	yam.evt.midi_message[yam.evt.size++] = 0x01;
+	yam.evt.midi_message[yam.evt.size++] = opcodeA;
+	yam.evt.midi_message[yam.evt.size++] = opcodeB;
+	yam.evt.midi_message[yam.evt.size++] = (param >> 7) & 0x7f;
+	yam.evt.midi_message[yam.evt.size++] = param & 0x7f;
+	yam.evt.midi_message[yam.evt.size++] = (channel >> 7) & 0x7f;
+	yam.evt.midi_message[yam.evt.size++] = channel & 0x7f;
+	yam.evt.midi_message[yam.evt.size++] = 0xf7;
+
+	m_midiOutput->SendMsg(&yam.evt, -1);
+
+	char buf[512];
+	sprintf(buf, "REQUEST: 0x%02x,0x%02x,0x%02x,%d - 0x%02x 0x%02x 0x%02x 0x%02x 0x%02x 0x%02x 0x%02x 0x%02x 0x%02x 0x%02x 0x%02x 0x%02x\n",
+		opcodeA, opcodeB, param, channel,
+		yam.evt.midi_message[0],
+		yam.evt.midi_message[1],
+		yam.evt.midi_message[2],
+		yam.evt.midi_message[3],
+		yam.evt.midi_message[4],
+		yam.evt.midi_message[5],
+		yam.evt.midi_message[6],
+		yam.evt.midi_message[7],
+		yam.evt.midi_message[8],
+		yam.evt.midi_message[9],
+		yam.evt.midi_message[10],
+		yam.evt.midi_message[11],
+		yam.evt.midi_message[12]);
 	OutputDebugString(buf);
 }

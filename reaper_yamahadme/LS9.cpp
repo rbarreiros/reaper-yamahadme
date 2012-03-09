@@ -26,18 +26,19 @@ struct EventHandler
 {
 	unsigned int opcodeA;
 	unsigned int opcodeB;
+	unsigned int param;
 	MidiHandlerFunc func;
 };
 
 // Our event tables
 static const int nHandlers = 6;
 static const EventHandler events[nHandlers] = {
-	{ 0x00, 0x31, &LS9::OnInputOnChange },
-	{ 0x00, 0x32, &LS9::OnInputPanChange },
-	{ 0x00, 0x33, &LS9::OnInputFaderChange },
-	{ 0x01, 0x5e, &LS9::OnInputCueChange },
-	{ 0x02, 0x39, &LS9::OnChannelSelected },
-	{ 0x02, 0x41, &LS9::OnChannelSelectPush }, //receives 2 events, on sel key press and on sel key release
+	{ 0x00, 0x31, 0x00, &LS9::OnInputOnChange },
+	{ 0x00, 0x32, 0x01, &LS9::OnInputPanChange },
+	{ 0x00, 0x33, 0x00, &LS9::OnInputFaderChange },
+	{ 0x01, 0x5e, 0x00, &LS9::OnInputCueChange },
+	{ 0x02, 0x39, 0x10, &LS9::OnChannelSelected },
+	{ 0x02, 0x41, 0x00, &LS9::OnChannelSelectPush }, //receives 2 events, on sel key press and on sel key release
 };
 
 double LS9::getFaderYamahaToReaper(int volume)
@@ -70,6 +71,21 @@ int LS9::getFaderReaperToYamaha(double volume)
 
 void LS9::onMidiEvent(MidiEvt *evt)
 {
+	if(m_initialized == false)
+	{
+		if(m_synchDir == YamahaDME::TOREAPER)
+		{
+			OutputDebugString("Calling synchToReaper()\n");
+			synchToReaper();
+		}
+		else if(m_synchDir == YamahaDME::TOYAMAHA) // shouldn't really need this at all, stays if it's needed in future
+		{
+			OutputDebugString("Calling synchToYamaha()\n");
+			synchToYamaha();
+		}
+		m_initialized = true;
+	}
+
 	if(evt->size != 18) return; // we don't handle requests, only info
 	if(evt->midi_message[0] != 0xf0 || evt->midi_message[17] != 0xf7) return; // invalid info packet
 
@@ -161,18 +177,40 @@ bool LS9::OnChannelSelected(MidiEvt *evt)
 bool LS9::OnChannelSelectPush(MidiEvt *evt)
 {
 	m_SelPressed = (getMidiDataValue(evt) == 0x01);
-	if(m_SelPressed)
-	{
-		// Start timer
-	} 
-	else
-	{
-		// Stop/Cancel timer
-	}
-
 	return true;
 }
 
+/*******************************************
+	Synch
+********************************************/
+
+/**
+	synchToReaper
+
+	To synch the desk to reaper, we request all the defined callback parameters
+	we have and then our plugin will parse them as if they were sent normally by
+	someone changing values on the desk.
+*/
+void LS9::synchToReaper()
+{
+	OutputDebugString("Synch to Reaper called");
+
+	for(int i = 0; i < nHandlers; i++)
+	{
+		EventHandler handler = events[i];
+
+		// How many channels we have setup
+		int nChannels = CSurf_NumTracks(MCP_MODE);
+		char b[100]; 
+		sprintf(b, "NumChannels: %d\n", nChannels);
+		OutputDebugString(b);
+		// Should we be sure the channel exists ?!?!? (TODO)
+		for(int c = 0; c < nChannels; c++)
+		{
+			sendToYamahaRequest(handler.opcodeA, handler.opcodeB, handler.param, c);
+		}
+	}
+}
 
 /*******************************************
 	Reaper to Yamaha
