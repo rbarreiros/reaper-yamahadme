@@ -94,6 +94,11 @@ public:
 	virtual bool IsKeyDown(int key) { return false; }
 	virtual int Extended(int call, void *parm1, void *parm2, void *parm3) { return 0; }
 
+#ifdef _DEBUG
+	// Utility debug function
+	static void __cdecl Debug(const char *format, ...);
+#endif
+
 protected:
 	// Send data to desks
 	void sendToYamaha(unsigned int opcodeA, unsigned int opcodeB, int param, int channel, int data);
@@ -107,11 +112,6 @@ protected:
 	MediaTrack *getTrackFromId(int trackid);
 	MediaTrack *getTrack(MidiEvt *evt);
 	void clearAllSelectedTracks();
-
-#ifdef _DEBUG
-	// Utility debug function
-	void __cdecl Debug(const char *format, ...);
-#endif
 
 	// properties we need to keep track of
 	bool m_SelPressed, m_initialized;

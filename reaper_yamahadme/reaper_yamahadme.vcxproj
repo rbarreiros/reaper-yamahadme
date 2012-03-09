@@ -80,6 +80,8 @@
   <ItemGroup>
     <ClInclude Include="csurf.h" />
     <ClInclude Include="LS9.h" />
+    <ClInclude Include="M7CL.h" />
+    <ClInclude Include="PM5D.h" />
     <ClInclude Include="reaper_plugin.h" />
     <ClInclude Include="resource.h" />
     <ClInclude Include="YamahaDME.h" />

@@ -30,6 +30,12 @@
     <ClInclude Include="YamahaDME.h">
       <Filter>Header Files</Filter>
     </ClInclude>
+    <ClInclude Include="M7CL.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="PM5D.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="csurf_main.cpp">

@@ -6,7 +6,10 @@
 
 #include "csurf.h"
 #include "../WDL/ptrlist.h"
+
 #include "LS9.h"
+#include "M7CL.h"
+#include "PM5D.h"
 
 /**
 	Parameter parsing function
@@ -43,12 +46,33 @@ static IReaperControlSurface *createFunc(const char *type_string, const char *co
   // Detect which desk were dealing with
   char name[10];
   GetMIDIInputName(parms[0], name, sizeof(name));
-  if(_strcmpi(name, "ls9"))
-	return new LS9(parms[0], parms[1], (YamahaDME::SynchDirection)parms[2], errStats);
-  // else if(_strcmpi(name, 'm7cl'))
-  // else if(_strcmpi(name, 'pm5d'))
-  else
-	return NULL; // Can we do this !!?!?
+
+  if(_strcmpi(name, "ls9") == 0)
+  {
+#ifdef _DEBUG
+	  YamahaDME::Debug("Attempting to initialize LS9 control surface");
+#endif
+	  return new LS9(parms[0], parms[1], (YamahaDME::SynchDirection)parms[2], errStats);
+  }
+  else if(_strcmpi(name, "m7cl") == 0)
+  {
+#ifdef _DEBUG
+	  YamahaDME::Debug("Attempting to initialize M7CL control surface");
+#endif
+	  return new M7CL(parms[0], parms[1], (YamahaDME::SynchDirection)parms[2], errStats);
+  }
+  else if(_strcmpi(name, "pm5d") == 0)
+  {
+#ifdef _DEBUG
+	  YamahaDME::Debug("Attempting to initialize PM5D control surface");
+#endif
+	  return new PM5D(parms[0], parms[1], (YamahaDME::SynchDirection)parms[2], errStats);
+  }
+
+#ifdef _DEBUG
+  YamahaDME::Debug("The midi device we tried to initialize is not LS9 or M7CL or PM5D");
+#endif
+  return NULL; // Cancels adding the device, would be nice to generate a dialog msg with a warning.
 }
 
 /**
