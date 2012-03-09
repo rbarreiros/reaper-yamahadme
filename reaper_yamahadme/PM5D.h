@@ -27,7 +27,8 @@ class PM5D : public YamahaDME
 {
 public:
 	// Constructor
-	PM5D(int inDev, int outDev, YamahaDME::SynchDirection dir, int *errStats) : YamahaDME(inDev, outDev, dir, errStats) { desk = YamahaDME::PM5D; }
+	PM5D(int inDev, int outDev, YamahaDME::SynchDirection dir, bool live, int *errStats) : 
+	  YamahaDME(inDev, outDev, dir, live, errStats) { desk = YamahaDME::PM5D; }
 
 	// Processing
 	void onMidiEvent(MidiEvt *evt) {}

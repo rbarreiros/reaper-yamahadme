@@ -157,16 +157,21 @@ bool LS9::OnInputCueChange(MidiEvt *evt)
 	MediaTrack *tr = getTrackFromId(track);
 	if(tr)
 	{
-		clearAllSelectedTracks();
-		CSurf_OnSelectedChange(tr, 1);
-
-		// save our cue list
-		if(track < 200) m_cueSave[track] = (getMidiDataValue(evt) > 1) ? 1 : 0;
-
-		if(getMidiDataValue(evt) > 0)
-			SendMessage(g_hwnd,WM_COMMAND, 40493,0);
+		if(m_SelPressed)
+			onArmRecord(tr, (getMidiDataValue(evt) > 1) ? true : false);
 		else
-			SendMessage(g_hwnd,WM_COMMAND, 40492,0);
+		{
+			clearAllSelectedTracks();
+			CSurf_OnSelectedChange(tr, 1);
+
+			// save our cue list
+			if(track < MAX_TRACKS) m_cueSave[track] = (getMidiDataValue(evt) > 1) ? 1 : 0;
+
+			if(getMidiDataValue(evt) > 0)
+				SendMessage(g_hwnd,WM_COMMAND, 40493,0);
+			else
+				SendMessage(g_hwnd,WM_COMMAND, 40492,0);
+		}
 	} else
 		return false;
 
@@ -189,6 +194,8 @@ bool LS9::OnChannelSelected(MidiEvt *evt)
 bool LS9::OnChannelSelectPush(MidiEvt *evt)
 {
 	m_SelPressed = (getMidiDataValue(evt) == 0x01);
+	if(m_SelPressed) m_recArmSent = false;
+
 	return true;
 }
 

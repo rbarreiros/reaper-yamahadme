@@ -25,8 +25,9 @@
 
 #include "csurf.h"
 
-#define MAX_UNSIGNED_INT_VALUE 4294967296
-#define MAX_SIGNED_INT_VALUE 2147483648
+#define MAX_UNSIGNED_INT_VALUE	4294967296
+#define MAX_SIGNED_INT_VALUE	2147483648
+#define MAX_TRACKS				168
 
 typedef MIDI_event_t MidiEvt; // Shorter typing
 
@@ -52,7 +53,7 @@ public:
 		LS9 = 0x12
 	}; 
 
-	YamahaDME(int inDev, int outDev, SynchDirection dir, int *errStats);
+	YamahaDME(int inDev, int outDev, SynchDirection dir, bool live, int *errStats);
 	virtual ~YamahaDME();
 	
 	// IReaperControlSurface Interface methods required to be implemented and common to all desks
@@ -83,7 +84,7 @@ public:
 	virtual void SetSurfaceMute(MediaTrack *tr, bool mute) {}
 	virtual void SetSurfaceSelected(MediaTrack *tr, bool selected) {}
 	virtual void SetSurfaceSolo(MediaTrack *tr, bool solo) {}
-	virtual void SetSurfaceRecArm(MediaTrack *tr, bool recarm) {}
+	virtual void SetSurfaceRecArm(MediaTrack *tr, bool recarm);
 	virtual void SetPlayState(bool play, bool pause, bool rec) {}
 	virtual void SetRepeatState(bool rep) {}
 	virtual void SetTrackTitle(MediaTrack *tr, const char *title) {}
@@ -107,7 +108,7 @@ public:
 	*/
 	virtual void sendCurrentArmRecordSet();
 	virtual void sendClearCurrentArmRecordSet();
-	virtual void onArmRecord(MidiEvt *evt);
+	virtual void onArmRecord(MediaTrack *tr, bool recarm);
 
 
 
@@ -132,7 +133,7 @@ protected:
 	void clearAllSelectedTracks();
 
 	// properties we need to keep track of
-	bool m_SelPressed, m_initialized;
+	bool m_SelPressed, m_initialized, m_recArmSent, m_liveConcertMode;
 	int m_midiInDev, m_midiOutDev;
 	midi_Input *m_midiInput;
 	midi_Output *m_midiOutput;
@@ -140,7 +141,8 @@ protected:
 	SynchDirection m_synchDir;
 
 	// Max channels we'll eventually handle will be 168 (PM5D)
-	unsigned int m_cueSave[200];
+	unsigned int m_cueSave[MAX_TRACKS+1];
+	unsigned int m_recSave[MAX_TRACKS+1];
 
 	char configtmp[1024];
 	WDL_String desc;

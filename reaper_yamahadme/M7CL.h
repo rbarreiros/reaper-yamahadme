@@ -27,7 +27,8 @@ class M7CL : public YamahaDME
 {
 public:
 	// Constructor
-	M7CL(int inDev, int outDev, YamahaDME::SynchDirection dir, int *errStats) : YamahaDME(inDev, outDev, dir, errStats) { desk = YamahaDME::M7CL; }
+	M7CL(int inDev, int outDev, YamahaDME::SynchDirection dir, bool live, int *errStats) : 
+	  YamahaDME(inDev, outDev, dir, live, errStats) { desk = YamahaDME::M7CL; }
 
 	// Processing
 	void onMidiEvent(MidiEvt *evt) {}

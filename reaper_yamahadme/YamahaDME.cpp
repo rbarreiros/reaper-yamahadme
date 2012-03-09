@@ -32,8 +32,9 @@
 	@Param[in]	dir			SynchDirection from to where to synch on startup
 	@Param[out]	errStats	Errors
 */
-YamahaDME::YamahaDME(int inDev, int outDev, SynchDirection dir, int *errStats) : 
-		m_SelPressed(false), desk(YamahaDME::UNDEF), m_synchDir(dir), m_initialized(false) 
+YamahaDME::YamahaDME(int inDev, int outDev, SynchDirection dir, bool live, int *errStats) : 
+		m_SelPressed(false), desk(YamahaDME::UNDEF), m_synchDir(dir), m_initialized(false),
+		m_recArmSent(false)
 { 
 	m_midiInDev = inDev;
 	m_midiOutDev = outDev;
@@ -123,7 +124,7 @@ const char *YamahaDME::GetDescString()
 */
 const char *YamahaDME::GetConfigString()
 {
-	sprintf(configtmp,"%d %d %d", m_midiInDev, m_midiOutDev, m_synchDir);
+	sprintf(configtmp,"%d %d %d %d", m_midiInDev, m_midiOutDev, m_synchDir, m_liveConcertMode);
 	return configtmp;
 }
 
@@ -453,6 +454,18 @@ void __cdecl YamahaDME::Debug(const char *format, ...)
 #endif
 
 /**
+	SetSurfaceRecArm
+
+	Called when we arm record a track in reapper
+*/
+void YamahaDME::SetSurfaceRecArm(MediaTrack *tr, bool recarm)
+{
+	int track = CSurf_TrackToID(tr, MCP_MODE);
+	if(track <= MAX_TRACKS)
+		m_recSave[track] = recarm;
+}
+
+/**
 	sendCurrentArmRecordSet
 
 	Sends all currently armed tracks as CUE on message to the desk
@@ -461,10 +474,18 @@ void __cdecl YamahaDME::Debug(const char *format, ...)
 	We have the current cue list saved to be returned to the desk when
 	the [SEL] key is 'unpressed'
 
-	TODO - NOT IMPLEMETED
+	TODO - TESTING
 */
 void YamahaDME::sendCurrentArmRecordSet()
 {
+	if(!m_SelPressed || m_recArmSent || m_liveConcertMode)
+		return;
+
+	for(int i = 0; i < CSurf_NumTracks(MCP_MODE); i++)
+	{
+		sendToYamaha(0x01, 0x5e, 0x00, i, m_recSave[i]);
+	}
+	m_recArmSent = true;
 }
 
 /**
@@ -479,6 +500,12 @@ void YamahaDME::sendClearCurrentArmRecordSet()
 {
 	// we need to find the clear cue opcode and send that instead
 	// no idea if all the desks have that, certain LS9 has
+
+	// send our current cues
+	for(int i = 0; i < CSurf_NumTracks(MCP_MODE); i++)
+	{
+		sendToYamaha(0x01, 0x5e, 0x00, i, m_cueSave[i]);
+	}
 }
 
 /**
@@ -486,13 +513,18 @@ void YamahaDME::sendClearCurrentArmRecordSet()
 
 	When [SEL] + [CUE] is pressed we arm the track record.
 
-	TODO - NOT IMPLEMETED
+	@Param[in]	tr		Track pointer
+	@Param[in]	recarm	enable/disable rec arm
 */
-void YamahaDME::onArmRecord(MidiEvt *evt)
+void YamahaDME::onArmRecord(MediaTrack *tr, bool recarm)
 {
 	if(!m_SelPressed)
 		return;
 
+	int track = CSurf_TrackToID(tr, MCP_MODE);
+	if(track < MAX_TRACKS) m_recSave[track] = recarm;
+
+	CSurf_SetSurfaceRecArm(tr, CSurf_OnRecArmChange(tr, recarm), NULL);
 }
 
 

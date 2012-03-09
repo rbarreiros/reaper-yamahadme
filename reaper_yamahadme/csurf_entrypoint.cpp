@@ -14,17 +14,19 @@
 /**
 	Parameter parsing function
 */
-static void parseParms(const char *str, int parms[3])
+static void parseParms(const char *str, int parms[4])
 {
   parms[0]=-1;
   parms[1]=-1;
   parms[2]=1;
+  parms[3]=0;
 
-  const char *p=str;
+  const char *p = str;
+
   if (p)
   {
-    int x=0;
-    while (x<4)
+    int x = 0;
+    while (x < sizeof(parms))
     {
       while (*p == ' ') p++;
       if ((*p < '0' || *p > '9') && *p != '-') break;
@@ -40,7 +42,7 @@ static void parseParms(const char *str, int parms[3])
 */
 static IReaperControlSurface *createFunc(const char *type_string, const char *configString, int *errStats)
 {
-  int parms[3];
+  int parms[4];
   parseParms(configString,parms);
 
   // Detect which desk were dealing with
@@ -52,21 +54,21 @@ static IReaperControlSurface *createFunc(const char *type_string, const char *co
 #ifdef _DEBUG
 	  YamahaDME::Debug("Attempting to initialize LS9 control surface");
 #endif
-	  return new LS9(parms[0], parms[1], (YamahaDME::SynchDirection)parms[2], errStats);
+	  return new LS9(parms[0], parms[1], (YamahaDME::SynchDirection)parms[2], (parms[3] == 0) ? false : true, errStats);
   }
   else if(_strcmpi(name, "m7cl") == 0)
   {
 #ifdef _DEBUG
 	  YamahaDME::Debug("Attempting to initialize M7CL control surface");
 #endif
-	  return new M7CL(parms[0], parms[1], (YamahaDME::SynchDirection)parms[2], errStats);
+	  return new M7CL(parms[0], parms[1], (YamahaDME::SynchDirection)parms[2], (parms[3] == 0) ? false : true, errStats);
   }
   else if(_strcmpi(name, "pm5d") == 0)
   {
 #ifdef _DEBUG
 	  YamahaDME::Debug("Attempting to initialize PM5D control surface");
 #endif
-	  return new PM5D(parms[0], parms[1], (YamahaDME::SynchDirection)parms[2], errStats);
+	  return new PM5D(parms[0], parms[1], (YamahaDME::SynchDirection)parms[2], (parms[3] == 0) ? false : true, errStats);
   }
 
 #ifdef _DEBUG
@@ -85,7 +87,7 @@ static WDL_DLGRET dlgProc(HWND hwndDlg, UINT uMsg, WPARAM wParam, LPARAM lParam)
   {
     case WM_INITDIALOG:
       {
-        int parms[3];
+        int parms[4];
         parseParms((const char *)lParam,parms);
 		OutputDebugString((const char*)lParam);
 
@@ -104,6 +106,11 @@ static WDL_DLGRET dlgProc(HWND hwndDlg, UINT uMsg, WPARAM wParam, LPARAM lParam)
 		default:
 			CheckDlgButton(hwndDlg, IDC_RADIO1, BST_CHECKED);
 		};
+
+		if(parms[3] > 0)
+			CheckDlgButton(hwndDlg, IDC_CHKB1, BST_CHECKED);
+		else
+			CheckDlgButton(hwndDlg, IDC_CHKB1, BST_UNCHECKED);
 
         int n=GetNumMIDIInputs();
         int x=SendDlgItemMessage(hwndDlg,IDC_COMBO2,CB_ADDSTRING,0,(LPARAM)"None");
@@ -154,7 +161,9 @@ static WDL_DLGRET dlgProc(HWND hwndDlg, UINT uMsg, WPARAM wParam, LPARAM lParam)
 		else if(IsDlgButtonChecked(hwndDlg, IDC_RADIO3))
 			dir = YamahaDME::NONE;
 
-        sprintf(tmp,"%d %d %d", indev, outdev, dir);
+		int live = IsDlgButtonChecked(hwndDlg, IDC_CHKB1);
+
+        sprintf(tmp,"%d %d %d %d", indev, outdev, dir, live);
         lstrcpyn((char *)lParam, tmp,wParam);        
       }
     break;
