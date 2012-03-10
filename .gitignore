@@ -1,6 +1,8 @@
 Debug/*
 reaper_yamahadme/Debug/*
+reaper_yamahadme/Release/*
 *.opensdf
 ipch/*
 *.sdf
 res.~res
+reaper_yamahadme/build
