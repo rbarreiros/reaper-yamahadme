@@ -1,0 +1,329 @@
+// !$*UTF8*$!
+{
+	archiveVersion = 1;
+	classes = {
+	};
+	objectVersion = 42;
+	objects = {
+
+/* Begin PBXBuildFile section */
+		664B2F5E150BEB4100C80A4E /* csurf_entrypoint.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 664B2F2B150BEA2100C80A4E /* csurf_entrypoint.cpp */; };
+		664B2F5F150BEB4300C80A4E /* csurf_main.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 664B2F2C150BEA2100C80A4E /* csurf_main.cpp */; };
+		664B2F60150BEB4500C80A4E /* LS9.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 664B2F2E150BEA2100C80A4E /* LS9.cpp */; };
+		664B2F61150BEB4900C80A4E /* YamahaDME.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 664B2F34150BEA2100C80A4E /* YamahaDME.cpp */; };
+		664B2F62150BEB4D00C80A4E /* Carbon.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 664B2EE2150BE98500C80A4E /* Carbon.framework */; };
+		664B2F63150BEB4E00C80A4E /* Cocoa.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 664B2EE6150BE99100C80A4E /* Cocoa.framework */; };
+		664B2F64150BEB5500C80A4E /* swell-appstub.mm in Sources */ = {isa = PBXBuildFile; fileRef = 664B2F02150BE9C800C80A4E /* swell-appstub.mm */; };
+		664B2F65150BEB5800C80A4E /* swell-dlg.mm in Sources */ = {isa = PBXBuildFile; fileRef = 664B2F04150BE9C800C80A4E /* swell-dlg.mm */; };
+		664B2F66150BEB5D00C80A4E /* swell-gdi.mm in Sources */ = {isa = PBXBuildFile; fileRef = 664B2F0A150BE9C800C80A4E /* swell-gdi.mm */; };
+		664B2F67150BEB6000C80A4E /* swell-kb.mm in Sources */ = {isa = PBXBuildFile; fileRef = 664B2F0E150BE9C800C80A4E /* swell-kb.mm */; };
+		664B2F68150BEB6200C80A4E /* swell-menu.mm in Sources */ = {isa = PBXBuildFile; fileRef = 664B2F10150BE9C800C80A4E /* swell-menu.mm */; };
+		664B2F69150BEB6500C80A4E /* swell-misc.mm in Sources */ = {isa = PBXBuildFile; fileRef = 664B2F13150BE9C800C80A4E /* swell-misc.mm */; };
+		664B2F6A150BEB6B00C80A4E /* swell-miscdlg.mm in Sources */ = {isa = PBXBuildFile; fileRef = 664B2F16150BE9C800C80A4E /* swell-miscdlg.mm */; };
+		664B2F6B150BEB6D00C80A4E /* swell-modstub.mm in Sources */ = {isa = PBXBuildFile; fileRef = 664B2F18150BE9C800C80A4E /* swell-modstub.mm */; };
+		664B2F6C150BEB6F00C80A4E /* swell-wnd.mm in Sources */ = {isa = PBXBuildFile; fileRef = 664B2F1B150BE9C800C80A4E /* swell-wnd.mm */; };
+		664B2F6D150BEB7000C80A4E /* swell.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 664B2F1C150BE9C800C80A4E /* swell.cpp */; };
+		664B2FA6150BF84500C80A4E /* swell-ini.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 664B2F0B150BE9C800C80A4E /* swell-ini.cpp */; };
+/* End PBXBuildFile section */
+
+/* Begin PBXFileReference section */
+		664B2EE2150BE98500C80A4E /* Carbon.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = Carbon.framework; path = /System/Library/Frameworks/Carbon.framework; sourceTree = "<absolute>"; };
+		664B2EE6150BE99100C80A4E /* Cocoa.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = Cocoa.framework; path = /System/Library/Frameworks/Cocoa.framework; sourceTree = "<absolute>"; };
+		664B2F01150BE9C800C80A4E /* swell-appstub-generic.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = "swell-appstub-generic.cpp"; sourceTree = "<group>"; };
+		664B2F02150BE9C800C80A4E /* swell-appstub.mm */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.objcpp; path = "swell-appstub.mm"; sourceTree = "<group>"; };
+		664B2F03150BE9C800C80A4E /* swell-dlg-generic.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = "swell-dlg-generic.cpp"; sourceTree = "<group>"; };
+		664B2F04150BE9C800C80A4E /* swell-dlg.mm */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.objcpp; path = "swell-dlg.mm"; sourceTree = "<group>"; };
+		664B2F05150BE9C800C80A4E /* swell-dlggen.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = "swell-dlggen.h"; sourceTree = "<group>"; };
+		664B2F06150BE9C800C80A4E /* swell-functions.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = "swell-functions.h"; sourceTree = "<group>"; };
+		664B2F07150BE9C800C80A4E /* swell-gdi-generic.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = "swell-gdi-generic.cpp"; sourceTree = "<group>"; };
+		664B2F08150BE9C800C80A4E /* swell-gdi-internalpool.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = "swell-gdi-internalpool.h"; sourceTree = "<group>"; };
+		664B2F09150BE9C800C80A4E /* swell-gdi-lice.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = "swell-gdi-lice.cpp"; sourceTree = "<group>"; };
+		664B2F0A150BE9C800C80A4E /* swell-gdi.mm */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.objcpp; path = "swell-gdi.mm"; sourceTree = "<group>"; };
+		664B2F0B150BE9C800C80A4E /* swell-ini.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = "swell-ini.cpp"; sourceTree = "<group>"; };
+		664B2F0C150BE9C800C80A4E /* swell-internal.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = "swell-internal.h"; sourceTree = "<group>"; };
+		664B2F0D150BE9C800C80A4E /* swell-kb-generic.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = "swell-kb-generic.cpp"; sourceTree = "<group>"; };
+		664B2F0E150BE9C800C80A4E /* swell-kb.mm */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.objcpp; path = "swell-kb.mm"; sourceTree = "<group>"; };
+		664B2F0F150BE9C800C80A4E /* swell-menu-generic.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = "swell-menu-generic.cpp"; sourceTree = "<group>"; };
+		664B2F10150BE9C800C80A4E /* swell-menu.mm */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.objcpp; path = "swell-menu.mm"; sourceTree = "<group>"; };
+		664B2F11150BE9C800C80A4E /* swell-menugen.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = "swell-menugen.h"; sourceTree = "<group>"; };
+		664B2F12150BE9C800C80A4E /* swell-misc-generic.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = "swell-misc-generic.cpp"; sourceTree = "<group>"; };
+		664B2F13150BE9C800C80A4E /* swell-misc.mm */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.objcpp; path = "swell-misc.mm"; sourceTree = "<group>"; };
+		664B2F14150BE9C800C80A4E /* swell-miscdlg-generic.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = "swell-miscdlg-generic.cpp"; sourceTree = "<group>"; };
+		664B2F15150BE9C800C80A4E /* swell-miscdlg-gtk.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = "swell-miscdlg-gtk.cpp"; sourceTree = "<group>"; };
+		664B2F16150BE9C800C80A4E /* swell-miscdlg.mm */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.objcpp; path = "swell-miscdlg.mm"; sourceTree = "<group>"; };
+		664B2F17150BE9C800C80A4E /* swell-modstub-generic.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = "swell-modstub-generic.cpp"; sourceTree = "<group>"; };
+		664B2F18150BE9C800C80A4E /* swell-modstub.mm */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.objcpp; path = "swell-modstub.mm"; sourceTree = "<group>"; };
+		664B2F19150BE9C800C80A4E /* swell-types.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = "swell-types.h"; sourceTree = "<group>"; };
+		664B2F1A150BE9C800C80A4E /* swell-wnd-generic.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = "swell-wnd-generic.cpp"; sourceTree = "<group>"; };
+		664B2F1B150BE9C800C80A4E /* swell-wnd.mm */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.objcpp; path = "swell-wnd.mm"; sourceTree = "<group>"; };
+		664B2F1C150BE9C800C80A4E /* swell.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = swell.cpp; sourceTree = "<group>"; };
+		664B2F1D150BE9C800C80A4E /* swell.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = swell.h; sourceTree = "<group>"; };
+		664B2F1E150BE9C800C80A4E /* swellappmain.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = swellappmain.h; sourceTree = "<group>"; };
+		664B2F1F150BE9C800C80A4E /* swellappmain.mm */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.objcpp; path = swellappmain.mm; sourceTree = "<group>"; };
+		664B2F2B150BEA2100C80A4E /* csurf_entrypoint.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = csurf_entrypoint.cpp; sourceTree = "<group>"; };
+		664B2F2C150BEA2100C80A4E /* csurf_main.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = csurf_main.cpp; sourceTree = "<group>"; };
+		664B2F2D150BEA2100C80A4E /* csurf.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = csurf.h; sourceTree = "<group>"; };
+		664B2F2E150BEA2100C80A4E /* LS9.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = LS9.cpp; sourceTree = "<group>"; };
+		664B2F2F150BEA2100C80A4E /* LS9.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = LS9.h; sourceTree = "<group>"; };
+		664B2F30150BEA2100C80A4E /* M7CL.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = M7CL.h; sourceTree = "<group>"; };
+		664B2F31150BEA2100C80A4E /* PM5D.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = PM5D.h; sourceTree = "<group>"; };
+		664B2F32150BEA2100C80A4E /* reaper_plugin.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = reaper_plugin.h; sourceTree = "<group>"; };
+		664B2F33150BEA2100C80A4E /* resource.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = resource.h; sourceTree = "<group>"; };
+		664B2F34150BEA2100C80A4E /* YamahaDME.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = YamahaDME.cpp; sourceTree = "<group>"; };
+		664B2F35150BEA2100C80A4E /* YamahaDME.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = YamahaDME.h; sourceTree = "<group>"; };
+		664B2F5B150BEB2B00C80A4E /* reaper_yamahadme.dylib */ = {isa = PBXFileReference; explicitFileType = "compiled.mach-o.dylib"; includeInIndex = 0; path = reaper_yamahadme.dylib; sourceTree = BUILT_PRODUCTS_DIR; };
+/* End PBXFileReference section */
+
+/* Begin PBXFrameworksBuildPhase section */
+		664B2F59150BEB2B00C80A4E /* Frameworks */ = {
+			isa = PBXFrameworksBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+				664B2F62150BEB4D00C80A4E /* Carbon.framework in Frameworks */,
+				664B2F63150BEB4E00C80A4E /* Cocoa.framework in Frameworks */,
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+/* End PBXFrameworksBuildPhase section */
+
+/* Begin PBXGroup section */
+		664B2ED7150BE95D00C80A4E = {
+			isa = PBXGroup;
+			children = (
+				664B2F2A150BE9F700C80A4E /* Sources */,
+				664B2EE9150BE9C700C80A4E /* swell */,
+				664B2EE1150BE96D00C80A4E /* Frameworks */,
+				664B2F3B150BEA5E00C80A4E /* Products */,
+			);
+			sourceTree = "<group>";
+		};
+		664B2EE1150BE96D00C80A4E /* Frameworks */ = {
+			isa = PBXGroup;
+			children = (
+				664B2EE2150BE98500C80A4E /* Carbon.framework */,
+				664B2EE6150BE99100C80A4E /* Cocoa.framework */,
+			);
+			name = Frameworks;
+			sourceTree = "<group>";
+		};
+		664B2EE9150BE9C700C80A4E /* swell */ = {
+			isa = PBXGroup;
+			children = (
+				664B2F01150BE9C800C80A4E /* swell-appstub-generic.cpp */,
+				664B2F02150BE9C800C80A4E /* swell-appstub.mm */,
+				664B2F03150BE9C800C80A4E /* swell-dlg-generic.cpp */,
+				664B2F04150BE9C800C80A4E /* swell-dlg.mm */,
+				664B2F05150BE9C800C80A4E /* swell-dlggen.h */,
+				664B2F06150BE9C800C80A4E /* swell-functions.h */,
+				664B2F07150BE9C800C80A4E /* swell-gdi-generic.cpp */,
+				664B2F08150BE9C800C80A4E /* swell-gdi-internalpool.h */,
+				664B2F09150BE9C800C80A4E /* swell-gdi-lice.cpp */,
+				664B2F0A150BE9C800C80A4E /* swell-gdi.mm */,
+				664B2F0B150BE9C800C80A4E /* swell-ini.cpp */,
+				664B2F0C150BE9C800C80A4E /* swell-internal.h */,
+				664B2F0D150BE9C800C80A4E /* swell-kb-generic.cpp */,
+				664B2F0E150BE9C800C80A4E /* swell-kb.mm */,
+				664B2F0F150BE9C800C80A4E /* swell-menu-generic.cpp */,
+				664B2F10150BE9C800C80A4E /* swell-menu.mm */,
+				664B2F11150BE9C800C80A4E /* swell-menugen.h */,
+				664B2F12150BE9C800C80A4E /* swell-misc-generic.cpp */,
+				664B2F13150BE9C800C80A4E /* swell-misc.mm */,
+				664B2F14150BE9C800C80A4E /* swell-miscdlg-generic.cpp */,
+				664B2F15150BE9C800C80A4E /* swell-miscdlg-gtk.cpp */,
+				664B2F16150BE9C800C80A4E /* swell-miscdlg.mm */,
+				664B2F17150BE9C800C80A4E /* swell-modstub-generic.cpp */,
+				664B2F18150BE9C800C80A4E /* swell-modstub.mm */,
+				664B2F19150BE9C800C80A4E /* swell-types.h */,
+				664B2F1A150BE9C800C80A4E /* swell-wnd-generic.cpp */,
+				664B2F1B150BE9C800C80A4E /* swell-wnd.mm */,
+				664B2F1C150BE9C800C80A4E /* swell.cpp */,
+				664B2F1D150BE9C800C80A4E /* swell.h */,
+				664B2F1E150BE9C800C80A4E /* swellappmain.h */,
+				664B2F1F150BE9C800C80A4E /* swellappmain.mm */,
+			);
+			name = swell;
+			path = ../WDL/WDL/swell;
+			sourceTree = SOURCE_ROOT;
+		};
+		664B2F2A150BE9F700C80A4E /* Sources */ = {
+			isa = PBXGroup;
+			children = (
+				664B2F2B150BEA2100C80A4E /* csurf_entrypoint.cpp */,
+				664B2F2C150BEA2100C80A4E /* csurf_main.cpp */,
+				664B2F2D150BEA2100C80A4E /* csurf.h */,
+				664B2F2E150BEA2100C80A4E /* LS9.cpp */,
+				664B2F2F150BEA2100C80A4E /* LS9.h */,
+				664B2F30150BEA2100C80A4E /* M7CL.h */,
+				664B2F31150BEA2100C80A4E /* PM5D.h */,
+				664B2F32150BEA2100C80A4E /* reaper_plugin.h */,
+				664B2F33150BEA2100C80A4E /* resource.h */,
+				664B2F34150BEA2100C80A4E /* YamahaDME.cpp */,
+				664B2F35150BEA2100C80A4E /* YamahaDME.h */,
+			);
+			name = Sources;
+			sourceTree = "<group>";
+		};
+		664B2F3B150BEA5E00C80A4E /* Products */ = {
+			isa = PBXGroup;
+			children = (
+				664B2F5B150BEB2B00C80A4E /* reaper_yamahadme.dylib */,
+			);
+			name = Products;
+			sourceTree = "<group>";
+		};
+/* End PBXGroup section */
+
+/* Begin PBXHeadersBuildPhase section */
+		664B2F57150BEB2B00C80A4E /* Headers */ = {
+			isa = PBXHeadersBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+/* End PBXHeadersBuildPhase section */
+
+/* Begin PBXNativeTarget section */
+		664B2F5A150BEB2B00C80A4E /* reaper_yamahadme */ = {
+			isa = PBXNativeTarget;
+			buildConfigurationList = 664B2F70150BEB8E00C80A4E /* Build configuration list for PBXNativeTarget "reaper_yamahadme" */;
+			buildPhases = (
+				664B2F57150BEB2B00C80A4E /* Headers */,
+				664B2F58150BEB2B00C80A4E /* Sources */,
+				664B2F59150BEB2B00C80A4E /* Frameworks */,
+			);
+			buildRules = (
+			);
+			dependencies = (
+			);
+			name = reaper_yamahadme;
+			productName = reaper_yamahadme;
+			productReference = 664B2F5B150BEB2B00C80A4E /* reaper_yamahadme.dylib */;
+			productType = "com.apple.product-type.library.dynamic";
+		};
+/* End PBXNativeTarget section */
+
+/* Begin PBXProject section */
+		664B2ED9150BE95D00C80A4E /* Project object */ = {
+			isa = PBXProject;
+			buildConfigurationList = 664B2EDC150BE95D00C80A4E /* Build configuration list for PBXProject "reaper_yamahadme" */;
+			compatibilityVersion = "Xcode 2.4";
+			developmentRegion = English;
+			hasScannedForEncodings = 0;
+			knownRegions = (
+				English,
+				Japanese,
+				French,
+				German,
+			);
+			mainGroup = 664B2ED7150BE95D00C80A4E;
+			productRefGroup = 664B2F3B150BEA5E00C80A4E /* Products */;
+			projectDirPath = "";
+			projectRoot = "";
+			targets = (
+				664B2F5A150BEB2B00C80A4E /* reaper_yamahadme */,
+			);
+		};
+/* End PBXProject section */
+
+/* Begin PBXSourcesBuildPhase section */
+		664B2F58150BEB2B00C80A4E /* Sources */ = {
+			isa = PBXSourcesBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+				664B2F5E150BEB4100C80A4E /* csurf_entrypoint.cpp in Sources */,
+				664B2F5F150BEB4300C80A4E /* csurf_main.cpp in Sources */,
+				664B2F60150BEB4500C80A4E /* LS9.cpp in Sources */,
+				664B2F61150BEB4900C80A4E /* YamahaDME.cpp in Sources */,
+				664B2F64150BEB5500C80A4E /* swell-appstub.mm in Sources */,
+				664B2F65150BEB5800C80A4E /* swell-dlg.mm in Sources */,
+				664B2F66150BEB5D00C80A4E /* swell-gdi.mm in Sources */,
+				664B2F67150BEB6000C80A4E /* swell-kb.mm in Sources */,
+				664B2F68150BEB6200C80A4E /* swell-menu.mm in Sources */,
+				664B2F69150BEB6500C80A4E /* swell-misc.mm in Sources */,
+				664B2F6A150BEB6B00C80A4E /* swell-miscdlg.mm in Sources */,
+				664B2F6B150BEB6D00C80A4E /* swell-modstub.mm in Sources */,
+				664B2F6C150BEB6F00C80A4E /* swell-wnd.mm in Sources */,
+				664B2F6D150BEB7000C80A4E /* swell.cpp in Sources */,
+				664B2FA6150BF84500C80A4E /* swell-ini.cpp in Sources */,
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+/* End PBXSourcesBuildPhase section */
+
+/* Begin XCBuildConfiguration section */
+		664B2EDA150BE95D00C80A4E /* Debug */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				COPY_PHASE_STRIP = NO;
+			};
+			name = Debug;
+		};
+		664B2EDB150BE95D00C80A4E /* Release */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				COPY_PHASE_STRIP = YES;
+			};
+			name = Release;
+		};
+		664B2F5C150BEB2C00C80A4E /* Debug */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				ALWAYS_SEARCH_USER_PATHS = NO;
+				COPY_PHASE_STRIP = NO;
+				EXECUTABLE_PREFIX = "";
+				GCC_DYNAMIC_NO_PIC = NO;
+				GCC_ENABLE_FIX_AND_CONTINUE = YES;
+				GCC_MODEL_TUNING = G5;
+				GCC_OPTIMIZATION_LEVEL = 0;
+				HEADER_SEARCH_PATHS = /Users/rbarreiros/Documents/Projectos/reaper_yamahame/WDL;
+				INSTALL_PATH = /usr/local/lib;
+				PREBINDING = NO;
+				PRODUCT_NAME = reaper_yamahadme;
+				SKIP_INSTALL = YES;
+			};
+			name = Debug;
+		};
+		664B2F5D150BEB2C00C80A4E /* Release */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				ALWAYS_SEARCH_USER_PATHS = NO;
+				COPY_PHASE_STRIP = YES;
+				DEBUG_INFORMATION_FORMAT = "dwarf-with-dsym";
+				EXECUTABLE_PREFIX = lib;
+				GCC_ENABLE_FIX_AND_CONTINUE = NO;
+				GCC_MODEL_TUNING = G5;
+				HEADER_SEARCH_PATHS = /Users/rbarreiros/Documents/Projectos/reaper_yamahame/WDL;
+				INSTALL_PATH = /usr/local/lib;
+				PREBINDING = NO;
+				PRODUCT_NAME = reaper_yamahadme;
+				SKIP_INSTALL = YES;
+				ZERO_LINK = NO;
+			};
+			name = Release;
+		};
+/* End XCBuildConfiguration section */
+
+/* Begin XCConfigurationList section */
+		664B2EDC150BE95D00C80A4E /* Build configuration list for PBXProject "reaper_yamahadme" */ = {
+			isa = XCConfigurationList;
+			buildConfigurations = (
+				664B2EDA150BE95D00C80A4E /* Debug */,
+				664B2EDB150BE95D00C80A4E /* Release */,
+			);
+			defaultConfigurationIsVisible = 0;
+			defaultConfigurationName = Release;
+		};
+		664B2F70150BEB8E00C80A4E /* Build configuration list for PBXNativeTarget "reaper_yamahadme" */ = {
+			isa = XCConfigurationList;
+			buildConfigurations = (
+				664B2F5C150BEB2C00C80A4E /* Debug */,
+				664B2F5D150BEB2C00C80A4E /* Release */,
+			);
+			defaultConfigurationIsVisible = 0;
+			defaultConfigurationName = Release;
+		};
+/* End XCConfigurationList section */
+	};
+	rootObject = 664B2ED9150BE95D00C80A4E /* Project object */;
+}
