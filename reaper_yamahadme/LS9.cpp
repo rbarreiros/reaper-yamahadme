@@ -81,12 +81,16 @@ void LS9::onMidiEvent(MidiEvt *evt)
 	{
 		if(m_synchDir == YamahaDME::TOREAPER)
 		{
-			OutputDebugString("Calling synchToReaper()\n");
+#ifdef _DEBUG
+			Debug("Calling synchToReaper()\n");
+#endif
 			synchToReaper();
 		}
 		else if(m_synchDir == YamahaDME::TOYAMAHA) // shouldn't really need this at all, stays if needed in future
 		{
-			OutputDebugString("Calling synchToYamaha()\n");
+#ifdef _DEBUG
+			Debug("Calling synchToYamaha()\n");
+#endif
 			synchToYamaha();
 		}
 		m_initialized = true;
@@ -212,8 +216,10 @@ bool LS9::OnChannelSelectPush(MidiEvt *evt)
 */
 void LS9::synchToReaper()
 {
-	OutputDebugString("Synch to Reaper called");
-
+#ifdef _DEBUG
+	Debug("Synch to Reaper called");
+#endif
+	
 	for(int i = 0; i < nHandlers; i++)
 	{
 		EventHandler handler = events[i];

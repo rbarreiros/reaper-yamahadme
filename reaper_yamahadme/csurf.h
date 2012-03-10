@@ -2,10 +2,16 @@
 #define _CSURF_H_
 
 #include "reaper_plugin.h"
-#include "../WDL/db2val.h"
-#include "../WDL/wdlstring.h"
-#include <stdio.h>
 #include "resource.h"
+
+#ifndef _WIN32
+#include <cstdlib>
+#include <string.h>
+#endif
+
+#include <stdio.h>
+#include <WDL/db2val.h>
+#include <WDL/wdlstring.h>
 
 #define MCP_MODE false // don't think we'll ever need this
 

@@ -14,18 +14,18 @@
 // Dialog resources
 //
 LANGUAGE LANG_ENGLISH, SUBLANG_ENGLISH_US
-IDD_SURFACEEDIT DIALOG 0, 0, 268, 126
-STYLE DS_CENTER | DS_SETFONT | WS_CHILDWINDOW
+IDD_SURFACEEDIT DIALOGEX 0, 0, 268, 126
+STYLE DS_CENTER | DS_SETFONT | DS_FIXEDSYS | WS_CHILD
 FONT 8, "MS Shell Dlg"
-{
-    RTEXT           "MIDI input:", IDC_STATIC, 23, 6, 56, 8, SS_RIGHT
+BEGIN
+    RTEXT           "MIDI input:", IDC_STATIC, 23, 6, 56, 8
     COMBOBOX        IDC_COMBO2, 81, 4, 181, 105, WS_TABSTOP | WS_VSCROLL | CBS_DROPDOWNLIST
-    RTEXT           "MIDI output:", IDC_STATIC, 23, 23, 56, 8, SS_RIGHT
+    RTEXT           "MIDI output:", IDC_STATIC, 23, 23, 56, 8
     COMBOBOX        IDC_COMBO3, 81, 21, 181, 105, WS_TABSTOP | WS_VSCROLL | CBS_DROPDOWNLIST
-    AUTORADIOBUTTON "Reaper to Desk", IDC_RADIO1, 77, 49, 66, 8
-    AUTORADIOBUTTON "Desk to Reaper", IDC_RADIO2, 151, 49, 66, 8
-    AUTORADIOBUTTON "None", IDC_RADIO3, 225, 49, 33, 8
+    CONTROL         "Reaper to Desk", IDC_RADIO1, "Button", BS_AUTORADIOBUTTON | WS_GROUP, 77, 52, 66, 8
+    CONTROL         "Desk to Reaper", IDC_RADIO2, "Button", BS_AUTORADIOBUTTON, 151, 52, 66, 8
+    CONTROL         "None", IDC_RADIO3, "Button", BS_AUTORADIOBUTTON, 225, 52, 33, 8
     GROUPBOX        "Synchronization", IDC_STATIC, 31, 36, 231, 30, BS_LEFT
-    AUTOCHECKBOX    "Live concert mode", IDC_CHKB1, 187, 73, 75, 8
+    CHECKBOX        "Live concert mode", IDC_CHKB1, 187, 73, 75, 8
     LTEXT           "Rui Barreiros <rbarreiros@gmail.com> - http://www.audioluz.net", IDC_STATIC, 33, 87, 201, 8, SS_LEFT
-}
+END

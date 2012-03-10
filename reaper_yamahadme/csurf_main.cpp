@@ -238,24 +238,19 @@ REAPER_PLUGIN_DLL_EXPORT int REAPER_PLUGIN_ENTRYPOINT(REAPER_PLUGIN_HINSTANCE hI
 
 };
 
-
-
-
-
 #ifndef _WIN32 // MAC resources
-#include "../../WDL/swell/swell-dlggen.h"
+#include <WDL/swell/swell-dlggen.h>
 #include "res.rc_mac_dlg"
 #undef BEGIN
 #undef END
-#include "../../WDL/swell/swell-menugen.h"
+#include <WDL/swell/swell-menugen.h>
 #include "res.rc_mac_menu"
 #endif
 
-
 #ifndef _WIN32 // let OS X use this threading step
 
-#include "../../WDL/mutex.h"
-#include "../../WDL/ptrlist.h"
+#include <WDL/mutex.h>
+#include <WDL/ptrlist.h>
 
 
 

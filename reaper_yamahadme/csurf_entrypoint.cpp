@@ -5,11 +5,11 @@
 */
 
 #include "csurf.h"
-#include "../WDL/ptrlist.h"
-
 #include "LS9.h"
 #include "M7CL.h"
 #include "PM5D.h"
+
+#include <WDL/ptrlist.h>
 
 /**
 	Parameter parsing function
@@ -89,8 +89,10 @@ static WDL_DLGRET dlgProc(HWND hwndDlg, UINT uMsg, WPARAM wParam, LPARAM lParam)
       {
         int parms[4];
         parseParms((const char *)lParam,parms);
-		OutputDebugString((const char*)lParam);
-
+#ifdef _DEBUG
+		YamahaDME::Debug((const char*)lParam);
+#endif
+		
 		// Default synch method is to yamaha
 		switch(parms[2])
 		{

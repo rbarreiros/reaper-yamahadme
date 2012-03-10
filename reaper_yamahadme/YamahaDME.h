@@ -18,16 +18,19 @@
  * http://www.audioluz.net
  */
 
-#include "reaper_plugin.h"
-
 #ifndef __YAMAHA_DME_H__
 #define __YAMAHA_DME_H__
 
+#include "reaper_plugin.h"
 #include "csurf.h"
 
-#define MAX_UNSIGNED_INT_VALUE	4294967296
-#define MAX_SIGNED_INT_VALUE	2147483648
+#define MAX_UNSIGNED_INT_VALUE	4294967296.0
+#define MAX_SIGNED_INT_VALUE	2147483648.0
 #define MAX_TRACKS				168
+
+#ifndef _WIN32
+#define _strcmpi strcasecmp
+#endif
 
 typedef MIDI_event_t MidiEvt; // Shorter typing
 
@@ -110,14 +113,11 @@ public:
 	virtual void sendClearCurrentArmRecordSet();
 	virtual void onArmRecord(MediaTrack *tr, bool recarm);
 
-
-
-
 #ifdef _DEBUG
 	// Utility debug function
 	static void __cdecl Debug(const char *format, ...);
 #endif
-
+	
 protected:
 	// Send data to desks
 	void sendToYamaha(unsigned int opcodeA, unsigned int opcodeB, int param, int channel, int data);
