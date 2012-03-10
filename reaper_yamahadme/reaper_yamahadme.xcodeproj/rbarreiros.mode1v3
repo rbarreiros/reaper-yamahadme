@@ -229,8 +229,6 @@
 			<key>Layout</key>
 			<array>
 				<dict>
-					<key>BecomeActive</key>
-					<true/>
 					<key>ContentConfiguration</key>
 					<dict>
 						<key>PBXBottomSmartGroupGIDs</key>
@@ -272,8 +270,8 @@
 							<key>PBXSmartGroupTreeModuleOutlineStateSelectionKey</key>
 							<array>
 								<array>
-									<integer>6</integer>
-									<integer>5</integer>
+									<integer>2</integer>
+									<integer>0</integer>
 								</array>
 							</array>
 							<key>PBXSmartGroupTreeModuleOutlineStateVisibleRectKey</key>
@@ -312,7 +310,7 @@
 								<key>PBXProjectModuleGUID</key>
 								<string>1CE0B20306471E060097A5F4</string>
 								<key>PBXProjectModuleLabel</key>
-								<string>csurf_entrypoint.cpp</string>
+								<string>swell-dlggen.h</string>
 								<key>PBXSplitModuleInNavigatorKey</key>
 								<dict>
 									<key>Split0</key>
@@ -320,11 +318,7 @@
 										<key>PBXProjectModuleGUID</key>
 										<string>1CE0B20406471E060097A5F4</string>
 										<key>PBXProjectModuleLabel</key>
-										<string>csurf_entrypoint.cpp</string>
-										<key>_historyCapacity</key>
-										<integer>0</integer>
-										<key>bookmark</key>
-										<string>664B2FC1150BF94800C80A4E</string>
+										<string>swell-dlggen.h</string>
 										<key>history</key>
 										<array>
 											<string>664B2F8C150BF3BF00C80A4E</string>
@@ -336,9 +330,6 @@
 											<string>664B2F92150BF3BF00C80A4E</string>
 											<string>664B2F93150BF3BF00C80A4E</string>
 											<string>664B2F94150BF3BF00C80A4E</string>
-											<string>664B2FAF150BF8D500C80A4E</string>
-											<string>664B2FBA150BF8FB00C80A4E</string>
-											<string>664B2F95150BF3BF00C80A4E</string>
 										</array>
 									</dict>
 									<key>SplitCount</key>
@@ -350,16 +341,18 @@
 							<key>GeometryConfiguration</key>
 							<dict>
 								<key>Frame</key>
-								<string>{{0, 0}, {931, 380}}</string>
+								<string>{{0, 0}, {931, 373}}</string>
 								<key>RubberWindowFrame</key>
 								<string>50 75 1139 607 0 0 1280 778 </string>
 							</dict>
 							<key>Module</key>
 							<string>PBXNavigatorGroup</string>
 							<key>Proportion</key>
-							<string>380pt</string>
+							<string>373pt</string>
 						</dict>
 						<dict>
+							<key>BecomeActive</key>
+							<true/>
 							<key>ContentConfiguration</key>
 							<dict>
 								<key>PBXProjectModuleGUID</key>
@@ -370,14 +363,14 @@
 							<key>GeometryConfiguration</key>
 							<dict>
 								<key>Frame</key>
-								<string>{{0, 385}, {931, 181}}</string>
+								<string>{{0, 378}, {931, 188}}</string>
 								<key>RubberWindowFrame</key>
 								<string>50 75 1139 607 0 0 1280 778 </string>
 							</dict>
 							<key>Module</key>
 							<string>XCDetailModule</string>
 							<key>Proportion</key>
-							<string>181pt</string>
+							<string>188pt</string>
 						</dict>
 					</array>
 					<key>Proportion</key>
@@ -396,9 +389,9 @@
 			</array>
 			<key>TableOfContents</key>
 			<array>
-				<string>664B2F98150BF3BF00C80A4E</string>
+				<string>664B2FD7150C060900C80A4E</string>
 				<string>1CE0B1FE06471DED0097A5F4</string>
-				<string>664B2F99150BF3BF00C80A4E</string>
+				<string>664B2FD8150C060900C80A4E</string>
 				<string>1CE0B20306471E060097A5F4</string>
 				<string>1CE0B20506471E060097A5F4</string>
 			</array>
@@ -561,7 +554,7 @@
 								<key>PBXProjectModuleGUID</key>
 								<string>1CD0528F0623707200166675</string>
 								<key>PBXProjectModuleLabel</key>
-								<string>csurf_main.cpp</string>
+								<string></string>
 								<key>StatusBarVisibility</key>
 								<true/>
 							</dict>
@@ -578,8 +571,6 @@
 							<string>268pt</string>
 						</dict>
 						<dict>
-							<key>BecomeActive</key>
-							<true/>
 							<key>ContentConfiguration</key>
 							<dict>
 								<key>PBXProjectModuleGUID</key>
@@ -619,7 +610,7 @@
 			<key>TableOfContents</key>
 			<array>
 				<string>664B2F51150BEAD600C80A4E</string>
-				<string>664B2F52150BEAD600C80A4E</string>
+				<string>664B2FD9150C060900C80A4E</string>
 				<string>1CD0528F0623707200166675</string>
 				<string>XCMainBuildResultsModuleGUID</string>
 			</array>
