@@ -1,0 +1,92 @@
+diff --git a/WDL/assocarray.h b/WDL/assocarray.h
+index 73a5bf6..8ba6968 100644
+--- a/WDL/assocarray.h
++++ b/WDL/assocarray.h
+@@ -245,14 +245,14 @@ public:
+ 
+   VAL Get(KEY key, VAL notfound=0)  
+   {
+-    VAL* p = GetPtr(key);
++    VAL* p = this->GetPtr(key);
+     if (p) return *p;
+     return notfound;
+   }
+ 
+   VAL Enumerate(int i, KEY* key=0, VAL notfound=0)
+   {
+-    VAL* p = EnumeratePtr(i, key);
++    VAL* p = this->EnumeratePtr(i, key);
+     if (p) return *p;
+     return notfound; 
+   }
+diff --git a/WDL/swell/swell-dlg.mm b/WDL/swell/swell-dlg.mm
+index 756188e..99af59f 100644
+--- a/WDL/swell/swell-dlg.mm
++++ b/WDL/swell/swell-dlg.mm
+@@ -1822,7 +1822,7 @@ SWELLDIALOGCOMMONIMPLEMENTS_WND(0)
+   NSRect contentRect=NSMakeRect(wx,wy,cr.size.width,cr.size.height);
+   if (!(self = [super initWithContentRect:contentRect styleMask:smask backing:NSBackingStoreBuffered defer:NO])) return self;
+ 
+-  [self setDelegate:self];
++  [self setDelegate:static_cast<id<NSWindowDelegate> >(self)];
+   [self setAcceptsMouseMovedEvents:YES];
+   [self setContentView:(NSView *)child];
+   [self useOptimizedDrawing:YES];
+@@ -1871,7 +1871,7 @@ SWELLDIALOGCOMMONIMPLEMENTS_WND(0)
+   
+   [self setAcceptsMouseMovedEvents:YES];
+   [self useOptimizedDrawing:YES];
+-  [self setDelegate:self];
++  [self setDelegate:static_cast<id<NSWindowDelegate> >(self)];
+   updateWindowCollection(self);
+   
+   if (resstate&&resstate->title) SetWindowText((HWND)self, resstate->title);
+@@ -1953,7 +1953,7 @@ SWELLDIALOGCOMMONIMPLEMENTS_WND(1)
+ 
+   [self setAcceptsMouseMovedEvents:YES];
+   [self useOptimizedDrawing:YES];
+-  [self setDelegate:self];
++  [self setDelegate:static_cast<id<NSWindowDelegate> >(self)];
+   updateWindowCollection(self);
+ 
+   if (parent && [(id)parent respondsToSelector:@selector(swellAddOwnedWindow:)])
+@@ -2327,7 +2327,7 @@ void SWELL_CarbonWndHost_SetWantAllKeys(void* carbonhost, bool want)
+     //CFRetain(wndref);
+ 
+     m_cwnd = [[NSWindow alloc] initWithWindowRef:wndref];  
+-    [m_cwnd setDelegate:self];    
++    [m_cwnd setDelegate:static_cast<id<NSWindowDelegate> >(self)];    
+     
+     ShowWindow(wndref);
+     
+diff --git a/WDL/swell/swell-wnd.mm b/WDL/swell/swell-wnd.mm
+index 68ea2e4..6008c87 100644
+--- a/WDL/swell/swell-wnd.mm
++++ b/WDL/swell/swell-wnd.mm
+@@ -3205,7 +3205,7 @@ HWND SWELL_MakeControl(const char *cname, int idx, const char *classname, int st
+       h+=6;
+     }
+     [obj setTag:idx];
+-    [obj setDelegate:obj];
++    [obj setDelegate:static_cast<id<NSTabViewDelegate> >(obj)];
+     [obj setAllowsTruncatedLabels:YES];
+     [obj setNotificationWindow:ACTIONTARGET];
+     [obj setHidden:NO];
+@@ -3220,7 +3220,7 @@ HWND SWELL_MakeControl(const char *cname, int idx, const char *classname, int st
+     SWELL_ListView *obj = [[SWELL_ListView alloc] init];
+     [obj setColumnAutoresizingStyle:NSTableViewNoColumnAutoresizing];
+     [obj setFocusRingType:NSFocusRingTypeNone];
+-    [obj setDataSource:obj];
++    [obj setDataSource:static_cast<id<NSTableViewDataSource> >(obj)];
+     obj->style=style;
+ 
+     BOOL isLB=!stricmp(classname, "SysListView32_LB");
+@@ -3291,7 +3291,7 @@ HWND SWELL_MakeControl(const char *cname, int idx, const char *classname, int st
+   {
+     SWELL_TreeView *obj = [[SWELL_TreeView alloc] init];
+     [obj setFocusRingType:NSFocusRingTypeNone];
+-    [obj setDataSource:obj];
++    [obj setDataSource:static_cast<id<NSOutlineViewDataSource> >(obj)];
+     obj->style=style;
+     id target=ACTIONTARGET;
+     [obj setHeaderView:nil];    
