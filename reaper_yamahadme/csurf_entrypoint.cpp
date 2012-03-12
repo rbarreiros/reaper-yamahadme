@@ -186,8 +186,8 @@ static HWND configFunc(const char *type_string, HWND parent, const char *initCon
 */
 reaper_csurf_reg_t csurf_yamahadme_reg = 
 {
-  "Yamaha DME Network",
-  "Yamaha DME Network",
+  "yamaha_dme_network", // unique string, no spaces A-Z, 0-9
+  "Yamaha DME Network", // description
   createFunc,			// Plugin creation function
   configFunc,			// Dialog creation function
 };

@@ -30,7 +30,7 @@
 	@Param[in]	indev		ID of the input midi device
 	@Param[in]	outdev		ID of the output midi device
 	@Param[in]	dir			SynchDirection from to where to synch on startup
-	@Param[out]	errStats	Errors
+	@Param[out]	errStats	Errors - 0 = no errors, |1 = input error, |2 = output error
 */
 YamahaDME::YamahaDME(int inDev, int outDev, SynchDirection dir, bool live, int *errStats) : 
 		m_SelPressed(false), desk(YamahaDME::UNDEF), m_synchDir(dir), m_initialized(false),
