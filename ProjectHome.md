@@ -1,0 +1,1 @@
+Control surface for Reaper and Yamaha DME-Network, where one can control through the network reaper/yamaha as if it was a MIDI device.
